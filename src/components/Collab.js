@@ -1,6 +1,5 @@
 import React from 'react';
 import Marquee from "react-fast-marquee";
-
 export default function Collab() {
     return (
         <div>
