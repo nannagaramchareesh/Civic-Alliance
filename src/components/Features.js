@@ -15,9 +15,17 @@ export default function Features() {
                             </path>
                         </svg>
                     </div>
+                    
                     <div className="flex-1">
-                        <h5 className="mb-3 text-xl font-bold text-white lg:text-2xl">Add Project</h5>
-                        <p className="mb-6 text-lg text-slate-400">Find out what plan is right for you</p>
+                        
+                        <div className="flex items-center">
+                        <h5 className="text-xl font-bold text-white lg:text-2xl mr-3">Add Project</h5>
+                        {/* <span class="relative flex h-3 w-3">
+    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+    <span class="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
+  </span> */}
+                        </div>                        
+                        <p className="mb-6 text-lg mt-3 text-slate-400">Find out what plan is right for you</p>
                         <span className="flex items-baseline text-lg font-bold text-indigo-600">
                             View price comparison
                             <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
