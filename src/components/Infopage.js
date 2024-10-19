@@ -74,7 +74,7 @@ export default function Infopage() {
                 </path>
             </svg>
         </div>
-        <div className="flex-1">
+        <div class="flex-1">
             <h5 className="mb-3 text-xl font-bold lg:text-2xl">Compare Plans</h5>
             <p className="mb-6 text-lg text-gray-600">Find out what plan is right for you</p>
             <span className="flex items-baseline text-lg font-bold text-indigo-600">
