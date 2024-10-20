@@ -1,0 +1,176 @@
+:root {
+    --black: #4c4c4c;
+    --white: #eaeaea;
+    --gray: #808080;
+    --indigo: rgb(95, 113, 179); /* Added indigo color variable */
+  
+    --text-arrow-space: 16px;
+    --shaft-width: 1px;
+    --newshaft-width: 64px;
+    --shaft-thickness: 1px;
+    --arrow-head-width: 8px;
+    --arrow-head-thickness: var(--shaft-thickness);
+}
+  
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  html,
+  body {
+    background: #ffffff;
+    height: 100%;
+    font-family: 'Helvetica Neue LT W01_41488878';
+    font-size: 16px;
+    line-height: 26px;
+  }
+  
+  .card {
+    display: flex;
+    backdrop-filter: blur(10px);
+    padding: 1.5rem;
+    border-radius: 40px;
+    transition: background-color 0.2s;
+    position: relative;
+  }
+  
+  .card:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .animated-arrow {
+    display: inline-block;
+    color: var(--black);
+    font-size: 1.25em;
+    font-style: italic;
+    text-decoration: none;
+    position: relative;
+    transition: all 0.2s;
+  }
+  
+  .the-arrow {
+    width: var(--shaft-width);
+    transition: all 0.2s;
+  }
+  
+  .the-arrow.-left {
+    position: absolute;
+    top: 60%;
+    left: 0;
+  }
+  
+  .the-arrow.-left > .shaft {
+    width: 0; /* Start with width 0 */
+    background-color: var(--black);
+    transition: width 0.2s, background-color 0.2s;
+  }
+  
+  .the-arrow.-left > .shaft:before,
+  .the-arrow.-left > .shaft:after {
+    width: 0;
+    background-color: var(--black);
+    transition: width 0.2s;
+  }
+  
+  .the-arrow.-right {
+    position: absolute;
+    top: 60%;
+    right: 0; /* Align to the right */
+  }
+  
+  .the-arrow.-right > .shaft {
+    width: var(--shaft-width);
+    background-color: var(--black);
+  }
+  
+  .card:hover .the-arrow.-left > .shaft {
+    width: var(--newshaft-width);
+    background-color: var(--indigo);
+  }
+  
+  .card:hover .the-arrow.-left > .shaft:before,
+  .card:hover .the-arrow.-left > .shaft:after {
+    width: var(--arrow-head-width);
+    background-color: var(--indigo); /* Change to indigo */
+  }
+  
+  .card:hover .the-arrow.-right > .shaft {
+    width: 0; /* Hide the right arrow shaft */
+    transform: translateX(200%);
+  }
+  
+  .card:hover .the-arrow.-right > .shaft:before,
+  .card:hover .the-arrow.-right > .shaft:after {
+    width: 0; /* Hide the arrow head */
+  }
+  
+  /* New style for the right arrow */
+  .card:hover .arrow-right {
+    opacity: 1; /* Show the right arrow character */
+    transform: translateX(0); /* Move it to its position */
+    transition: opacity 0.2s, transform 0.2s; /* Smooth transition */
+  }
+  
+  .the-arrow > .shaft {
+    background-color: var(--black);
+    display: block;
+    height: var(--shaft-thickness);
+    position: relative;
+  }
+  
+  .the-arrow > .shaft:before,
+  .the-arrow > .shaft:after {
+    background-color: var(--black);
+    content: '';
+    display: block;
+    height: var(--arrow-head-thickness);
+    position: absolute;
+    top: 0;
+    right: 0;
+    transition: all 0.2s;
+  }
+  
+  .the-arrow > .shaft:before {
+    transform-origin: top right;
+  }
+  
+  .the-arrow > .shaft:after {
+    transform-origin: bottom right;
+  }
+  
+  .animated-arrow > .main {
+    display: flex;
+    align-items: center;
+    transition: all 0.2s;
+  }
+  
+  .animated-arrow > .main > .text {
+    margin: 0 var(--text-arrow-space) 0 0;
+    line-height: 1;
+  }
+  
+  .animated-arrow > .main > .the-arrow {
+    position: relative;
+  }
+  
+  .animated-arrow:hover {
+    color: var(--gray);
+  }
+  
+  /* Animation when hovering over the card */
+  .card:hover .animated-arrow > .main {
+    transform: translateX(calc(var(--newshaft-width) + var(--text-arrow-space)));
+  }
+  
+  .card:hover .animated-arrow > .main > .the-arrow.-right > .shaft {
+    width: 0; /* Hide the right arrow shaft */
+  }
+  
+  /* Style for the right arrow character */
+  .arrow-right {
+    margin-left: 5px; /* Add spacing */
+    opacity: 0; /* Initially hidden */
+    transform: translateX(-10px); /* Move left initially */
+  }
+  
