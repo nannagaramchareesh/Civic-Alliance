@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Features() {
     return (
-        <div className='dark:bg-gray-900 '>
+        <div id='features' className='dark:bg-gray-900 '>
             <div className="grid  gap-8 md:grid-cols-2 lg:gap-12 p-6 md:p-10 mt-12">
                 <a href="/"
                     className="flex  backdrop-filter hover:bg-gray-50 hover:bg-opacity-10 flex-col p-6 space-y-6  rounded-[40px] shadow lg:p-8 lg:flex-row lg:space-y-0 lg:space-x-6">
