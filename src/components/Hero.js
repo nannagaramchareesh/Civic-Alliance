@@ -1,6 +1,7 @@
 import React from 'react'
 import Collab from './Collab'
 import sideimage from '../images/sideimage.svg'
+import Features from './Features'
 export default function Hero() {
   return (
     <div>
@@ -26,6 +27,11 @@ export default function Hero() {
     </section>
 
     <Collab/>
+    <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8"/>
+
+    <Features/>
+    <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8"/>
+
     </div>
   )
 }

@@ -5,7 +5,6 @@ export default function Signup() {
     <div>
       <div class="font-[sans-serif]">
       <div class="text-center bg-gradient-to-r from-blue-800 to-blue-400 min-h-[160px] sm:p-6 p-4">
-        <h4 class="sm:text-3xl text-2xl font-bold text-white">Create your free account</h4>
       </div>
 
       <div class="mx-4 mb-4 -mt-16">
@@ -80,12 +79,14 @@ export default function Signup() {
               <input name="cpassword" type="password" class="bg-gray-100 focus:bg-transparent w-full text-sm text-gray-800 px-4 py-3 rounded-md outline-blue-500 transition-all" placeholder="Enter confirm password" />
             </div>
           </div>
-          <div class="mt-8">
-            <button type="button" class="py-3 px-6 text-sm tracking-wider font-semibold rounded-md text-white bg-blue-500 hover:bg-blue-600 focus:outline-none">
+          <div class="mt-8 flex justify-center">
+            <button type="button" class="py-3 w-[900px] px-6 text-sm tracking-wider font-semibold rounded-md text-white bg-blue-500 hover:bg-blue-600 focus:outline-none">
               Sign up
             </button>
           </div>
         </form>
+        <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8"/>
+
       </div>
     </div>
     </div>
