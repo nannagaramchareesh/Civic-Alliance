@@ -17,7 +17,8 @@ export default function Features() {
                     </div>
                     <div className="flex-1">
                         <h5 className="mb-3 text-xl font-bold lg:text-2xl text-white">Add project</h5>
-                        <p className="mb-6 text-lg text-slate-400">Find out what plan is right for you</p>
+                        <p className="mb-6 text-lg text-slate-400">
+                        Add new projects, assign tasks, and manage interdepartmental collaboration efficiently.</p>
                         <div className="animated-arrow">
                             <span className="the-arrow -left">
                                 <span className="shaft"></span>
@@ -46,7 +47,7 @@ export default function Features() {
                     </div>
                     <div className="flex-1">
                         <h5 className="mb-3 text-xl font-bold lg:text-2xl text-white">View project</h5>
-                        <p className="mb-6 text-lg text-slate-400">Find out what plan is right for you</p>
+                        <p className="mb-6 text-lg text-slate-400">View project details, progress, timelines, resources, updates, and collaboration status.</p>
                         <div className="animated-arrow">
                             <span className="the-arrow -left">
                                 <span className="shaft"></span>
@@ -76,7 +77,7 @@ export default function Features() {
                     </div>
                     <div className="flex-1">
                         <h5 className="mb-3 text-xl font-bold lg:text-2xl text-white">Discussion Forum</h5>
-                        <p className="mb-6 text-lg text-slate-400">Find out what plan is right for you</p>
+                        <p className="mb-6 text-lg text-slate-400">Join discussions, share ideas, collaborate, resolve issues, and exchange insights across departments.</p>
                         <div className="animated-arrow">
                             <span className="the-arrow -left">
                                 <span className="shaft"></span>
