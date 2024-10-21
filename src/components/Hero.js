@@ -1,6 +1,6 @@
 import React from 'react'
-import logo from '../images/hero.png'
 import Collab from './Collab'
+import sideimage from '../images/sideimage.svg'
 export default function Hero() {
   return (
     <div>
@@ -9,7 +9,7 @@ export default function Hero() {
         <div className="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
             <div className="mr-auto place-self-center lg:col-span-7">
                 <h1 className="max-w-2xl mb-4 text-4xl font-extrabold leading-none  md:text-5xl xl:text-6xl dark:text-white text-gradient tracking-wider">Streamlining <br/>Urban Governance </h1>
-                <p className="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">Empowering interdepartmental collaboration through a digital platform that enhances resource sharing, project coordination, and communication for efficient urban development.<a href="https://tailwindcss.com" className="hover:underline"></a>  <a href="https://flowbite.com/docs/getting-started/introduction/" className="hover:underline"></a> <a href="https://flowbite.com/blocks/" className="hover:underline">Blocks System</a>.</p>
+                <p className="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">Empowering interdepartmental collaboration through a digital platform that enhances resource sharing, project coordination, and communication for efficient urban development.</p>
                 <div className="w-[30%] absolute bottom-48 h-[50%] blue__gradient"/>
                 <div className=""/>
                 <div className="space-y-4 sm:flex sm:space-y-0 sm:space-x-4">
@@ -19,7 +19,7 @@ export default function Hero() {
                 </div>
             </div>
             <div className="hidden lg:mt-0 lg:col-span-5 lg:flex">
-                <img src={logo} alt=""/>
+                <img src={sideimage} alt=""/>
                 <div className="w-[30%] absolute bottom-48 h-[50%] blue__gradient"/>
             </div>                
         </div>
