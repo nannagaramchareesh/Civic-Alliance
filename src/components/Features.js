@@ -16,7 +16,7 @@ export default function Features() {
                         </svg>
                     </div>
                     <div className="flex-1">
-                        <h5 className="mb-3 text-xl font-bold lg:text-2xl text-white">Discussion Forum</h5>
+                        <h5 className="mb-3 text-xl font-bold lg:text-2xl text-white">Add project</h5>
                         <p className="mb-6 text-lg text-slate-400">Find out what plan is right for you</p>
                         <div className="animated-arrow">
                             <span className="the-arrow -left">
@@ -45,7 +45,7 @@ export default function Features() {
                         </svg>
                     </div>
                     <div className="flex-1">
-                        <h5 className="mb-3 text-xl font-bold lg:text-2xl text-white">Discussion Forum</h5>
+                        <h5 className="mb-3 text-xl font-bold lg:text-2xl text-white">View project</h5>
                         <p className="mb-6 text-lg text-slate-400">Find out what plan is right for you</p>
                         <div className="animated-arrow">
                             <span className="the-arrow -left">
