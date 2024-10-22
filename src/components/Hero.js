@@ -19,7 +19,7 @@ export default function Hero() {
                     </a>
                 </div>
             </div>
-            <div className="hidden lg:mt-0 lg:col-span-5 lg:flex">
+            <div className="hidden lg:mt-0 lg:col-span-5 lg:flex ml-20">
                 <img src={sideimage} alt=""/>
                 <div className="w-[30%] absolute bottom-48 h-[50%] blue__gradient"/>
             </div>                
