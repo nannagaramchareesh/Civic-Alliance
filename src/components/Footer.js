@@ -3,7 +3,7 @@ import logo from '../images/logo.svg'
 export default function Footer() {
   return (
     <div>
-      <footer className="bg-white dark:bg-gray-900">
+      <footer className="bg-gradient-to-b from-gray-900/[.19] to-blue-900 dark:bg-gray-900">
         <div className="max-w-screen-xl p-4 py-6 mx-auto lg:py-16 md:p-8 lg:p-10">
             <div className="grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-5">
                 <div>

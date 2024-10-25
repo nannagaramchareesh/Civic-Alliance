@@ -28,8 +28,8 @@ const AddProject = () => {
 
     return (
         <div className="ml-52 w-[1100px] mt-16 mb-10">
-            <div className="p-8">
-                <h2 className="text-3xl font-extrabold text-white mb-6 text-center">Add New Project</h2>
+                <h2 className="text-[60px] font-extrabold  mb-10 text-center text-white">Add New Project</h2>
+            <div className="p-8  bg-white bg-opacity-5 backdrop-blur-lg rounded-xl shadow-lg">
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
                         <label className="block text-gray-200 font-medium">Project Name</label>
