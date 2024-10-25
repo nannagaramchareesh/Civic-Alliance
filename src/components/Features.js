@@ -3,12 +3,12 @@ import './another.css';
 import sideimage from '../images/new-project.svg'
 import sideimage1 from '../images/search.svg'
 import sideimage2 from '../images/video-conference.svg'
-
+import {Link} from 'react-router-dom'
 export default function Features() {
     return (
         <div id='features' className='dark:bg-gray-900 '>
             <div className="grid  gap-8 md:grid-cols-2 lg:gap-12 p-6 md:p-10 mt-12">
-            <a href="/"
+            <Link to="/AddProject"
                     className="flex  backdrop-filter hover:bg-gray-50 hover:bg-opacity-10 flex-col p-6 space-y-6  rounded-[40px] shadow lg:p-8 lg:flex-row lg:space-y-0 lg:space-x-6 card animated-card" id="discussionCard">
                     <div
                         className="flex items-center justify-center w-16 h-16  rounded-full shadow-inner lg:h-20 lg:w-20">
@@ -38,7 +38,7 @@ export default function Features() {
                             </span>
                         </div>
                     </div>
-                </a>
+                </Link>
                 <a href="/"
                     className="flex  backdrop-filter hover:bg-gray-50 hover:bg-opacity-10 flex-col p-6 space-y-6  rounded-[40px] shadow lg:p-8 lg:flex-row lg:space-y-0 lg:space-x-6 card animated-card" id="discussionCard">
                     <div
