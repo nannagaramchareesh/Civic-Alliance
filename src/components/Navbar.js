@@ -6,8 +6,8 @@ export default function Navbar() {
   return (
     <div>
 
-       <header className="w-full">
-        <nav className="bg-white border-gray-200 py-5  text-xl dark:bg-gray-900">
+       <header className="w-full ">
+        <nav className=" border-gray-200 py-5 text-xl">
             <div className="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
                 <Link to="/" className="flex items-center">
                     <img src={logo} className="h-6 mr-3 sm:h-9" alt="Landwind Logo" />
