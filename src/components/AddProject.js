@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import Example from './Example';
 const AddProject = () => {
 
     const [projectData, setProjectData] = useState({
@@ -27,7 +27,7 @@ const AddProject = () => {
     };
 
     return (
-        <div className="px-52 w-[1500px] mb-32">
+        <div className="px-52 w-[1500px] text-xl mb-32">
                 <h2 className="text-[60px] mt-20 font-bold  mb-10 text-center text-white">Add New Project</h2>
             <div className="p-8  bg-white bg-opacity-5 backdrop-blur-lg rounded-xl shadow-lg">
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -124,12 +124,7 @@ const AddProject = () => {
                         />
                         <label className="ml-2 text-gray-200 font-medium">Is this an inter-departmental project?</label>
                     </div>
-                    <button
-                        type="submit"
-                        className="w-full bg-blue-600 bg-opacity-80 text-white font-semibold py-3 rounded-lg mt-6 hover:bg-opacity-100 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                        Submit Project
-                    </button>
+                    <Example/>
                 </form>
             </div>
         </div>
