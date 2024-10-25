@@ -9,7 +9,7 @@ import AddProject from './components/AddProject'
 
 export default function App() {
   return (
-    <div className='dark:bg-gray-900'>
+    <div className='dark:bg-gray-900 bg-gradient-to-b from-blue-900/[.19] via-transparent'>
       <Router>
         <Navbar/>
         <Routes>
