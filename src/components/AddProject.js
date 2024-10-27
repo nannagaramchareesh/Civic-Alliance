@@ -27,7 +27,10 @@ const AddProject = () => {
     };
 
     return (
-        <div className="px-52 w-[1500px] text-xl mb-32">
+        
+        <div className="ml-20 w-[1350px] text-xl mb-32">
+            <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8"/>
+
                 <h2 className="text-[60px] mt-20 font-bold  mb-10 text-center text-white">Add New Project</h2>
             <div className="p-8  bg-white bg-opacity-5 backdrop-blur-lg rounded-xl shadow-lg">
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -127,6 +130,7 @@ const AddProject = () => {
                     <Example/>
                 </form>
             </div>
+            <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-20"/>
         </div>
     );
 };
