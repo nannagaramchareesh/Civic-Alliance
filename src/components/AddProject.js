@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Example from './Example';
+import './another.css'
 const AddProject = () => {
 
     const [projectData, setProjectData] = useState({
@@ -32,10 +33,10 @@ const AddProject = () => {
             <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8"/>
 
                 <h2 className="text-[60px] mt-20 font-bold  mb-10 text-center text-white">Add New Project</h2>
-            <div className="p-8  bg-white bg-opacity-5 backdrop-blur-lg rounded-xl shadow-lg">
+            <div className="p-8  border border-2px  border-solid border-white bg-white bg-opacity-5 backdrop-blur-lg rounded-xl shadow-lg">
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                        <label className="block text-gray-200 font-medium">Project Name</label>
+                        <label className="block text-gray-200 font-medium ">Project Name</label>
                         <input
                             type="text"
                             name="projectName"
@@ -130,7 +131,7 @@ const AddProject = () => {
                     <Example/>
                 </form>
             </div>
-            <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-20"/>
+            <hr className="border-gray-200 sm:mx-auto dark:border-gray-700 mt-20"/>
         </div>
     );
 };

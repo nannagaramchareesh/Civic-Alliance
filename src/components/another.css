@@ -11,7 +11,7 @@
     --arrow-head-width: 8px;
     --arrow-head-thickness: var(--shaft-thickness);
 }
-  
+
   * {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
