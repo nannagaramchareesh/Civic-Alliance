@@ -6,6 +6,7 @@ import Signup from './components/Signup'
 import { BrowserRouter as Router,Routes,Route} from "react-router-dom";
 import Login from './components/Login'
 import AddProject from './components/AddProject'
+import Contact from './components/Contact'
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
           <Route path='/signup' element={<Signup/>}/>
           <Route path='/login' element={<Login/>}/>
           <Route path='/AddProject' element={<AddProject/>}/>
+          <Route path='/contact' element={<Contact/>}/>
         </Routes>
         <Footer/>
       </Router>
