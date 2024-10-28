@@ -7,6 +7,7 @@ import { BrowserRouter as Router,Routes,Route} from "react-router-dom";
 import Login from './components/Login'
 import AddProject from './components/AddProject'
 import Contact from './components/Contact'
+import Aboutus from './components/Aboutus'
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
           <Route path='/login' element={<Login/>}/>
           <Route path='/AddProject' element={<AddProject/>}/>
           <Route path='/contact' element={<Contact/>}/>
+          <Route path='/about' element={<Aboutus/>}/>
         </Routes>
         <Footer/>
       </Router>
