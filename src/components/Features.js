@@ -39,7 +39,7 @@ export default function Features() {
                         </div>
                     </div>
                 </Link>
-                <a href="/"
+                <Link to="/viewprojects"
                     className="flex  backdrop-filter hover:bg-gray-50 hover:bg-opacity-10 flex-col p-6 space-y-6  rounded-[40px] shadow lg:p-8 lg:flex-row lg:space-y-0 lg:space-x-6 card animated-card" id="discussionCard">
                     <div
                         className="flex items-center justify-center w-16 h-16  rounded-full shadow-inner lg:h-20 lg:w-20">
@@ -69,7 +69,7 @@ export default function Features() {
                             </span>
                         </div>
                     </div>
-                </a>
+                </Link>
 
                 <a href="/"
                     className="flex  backdrop-filter hover:bg-gray-50 hover:bg-opacity-10 flex-col p-6 space-y-6  rounded-[40px] shadow lg:p-8 lg:flex-row lg:space-y-0 lg:space-x-6 card animated-card" id="discussionCard">

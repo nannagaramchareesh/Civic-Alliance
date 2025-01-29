@@ -8,7 +8,7 @@ import Login from './components/Login'
 import AddProject from './components/AddProject'
 import Contact from './components/Contact'
 import Aboutus from './components/Aboutus'
-
+import ViewProjects from './components/ViewProjects'
 export default function App() {
   return (
     <div className='dark:bg-gray-900 bg-gradient-to-b from-blue-950/[.19] via-transparent'>
@@ -21,6 +21,7 @@ export default function App() {
           <Route path='/AddProject' element={<AddProject/>}/>
           <Route path='/contact' element={<Contact/>}/>
           <Route path='/about' element={<Aboutus/>}/>
+          <Route path='/viewprojects' element={<ViewProjects/>}/>
         </Routes>
         <Footer/>
       </Router>
