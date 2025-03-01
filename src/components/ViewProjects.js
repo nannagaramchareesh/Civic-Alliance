@@ -3,7 +3,7 @@ import { MapPin, Calendar } from "lucide-react";
 
 const Card = ({ children, className }) => {
   return (
-    <div className={`bg-gray-900 shadow-2xl rounded-2xl p-6 transition-transform w-[900px]  transform hover:scale-105 hover:shadow-2xl hover:bg-gradient-to-r from-gray-800 to-gray-700 h-[330px] duration-300 ${className}`}>
+    <div className={`bg-gray-900 border border-2px border-solid border-white shadow-2xl rounded-2xl p-6 transition-transform w-[1200px]  transform hover:scale-105 hover:shadow-2xl hover:bg-gradient-to-r from-gray-800 to-gray-700 h-[330px] duration-300 ${className}`}>
       {children}
     </div>
   );
@@ -56,11 +56,15 @@ const projects = [
 
 const ProjectsList = () => {
   return (
-    <div className=" max-w-4xl p-12  text-white">
-      <h1 className="text-3xl font-bold  text-center bg-gradient-to-r from-blue-400 to-indigo-500 text-transparent bg-clip-text ">Ongoing & Upcoming Projects</h1>
+    <div className="">
+
+    <div className=" max-w-full p-12  text-white">
+      <h1 className="text-3xl  font-bold  text-center bg-gradient-to-r from-blue-400 to-indigo-500 text-transparent bg-clip-text ">Ongoing & Upcoming Projects</h1>
+      <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8"/>
       <div className="grid gap-6 mt-10">
-        {projects.map((project) => (
-          <Card key={project.id} className="relative overflow-hidden">
+        {projects.map((project,index) => (
+          <div className={`flex  justify-center`}>
+            <Card key={project.id} className="relative overflow-hidden">
             <CardContent>
               <h2 className="text-2xl font-bold text-gray-100">{project.name}</h2>
               <p className="text-gray-400 font-extrabold mt-2 text-xl">{project.department}</p>
@@ -76,8 +80,11 @@ const ProjectsList = () => {
               </div>
             </CardContent>
           </Card>
+          
+          </div>
         ))}
       </div>
+    </div>
     </div>
   );
 };
