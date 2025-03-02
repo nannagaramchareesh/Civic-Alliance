@@ -1,14 +1,52 @@
-import React from 'react'
+import axios from "axios";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 export default function Signup() {
-  return (
-    <div>
-      <div class="font-[sans-serif]">
-      <div class="text-center bg-gradient-to-r from-blue-800 to-blue-400 min-h-[160px] sm:p-6 p-4">
-      </div>
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    department: "",
+  });
 
-      <div class="mx-4 mb-4 -mt-16">
-        <form class="max-w-4xl mx-auto bg-white shadow-[0_2px_13px_-6px_rgba(0,0,0,0.4)] sm:p-8 p-4 rounded-md">
+
+  // Handle input change
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post("http://localhost:5000/api/departmentHead/signup", {
+        email: formData.email,
+        password: formData.password,
+        department: formData.department,
+      });
+      if(response.data.success){
+        toast.success(response.data.message)
+      }
+      else{
+        toast.error(response.data.message)
+      }
+    } catch (error) {
+      toast.error(error.message)
+    }
+  };
+
+  return (
+    <div className="font-[sans-serif]">
+      <div className="text-center bg-gradient-to-r from-blue-800 to-blue-400 min-h-[160px] sm:p-6 p-4"></div>
+
+      <div className="mx-4 mb-4 -mt-16">
+        <form
+          className="max-w-4xl mx-auto bg-white shadow-[0_2px_13px_-6px_rgba(0,0,0,0.4)] sm:p-8 p-4 rounded-md"
+          onSubmit={handleSubmit}
+        >
           <div class="grid md:grid-cols-2 gap-8">
             <button type="button"
               class="w-full px-6 py-3 flex items-center justify-center rounded-md text-gray-800 text-sm tracking-wider font-semibold border-none outline-none bg-gray-100 hover:bg-gray-200">
@@ -44,51 +82,94 @@ export default function Signup() {
               Continue with Apple
             </button>
           </div>
-
           <div
-            class="my-8 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
-            <p
-              class="mx-4 text-center">
-              Or
-            </p>
+              class="my-8 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
+              <p
+                class="mx-4 text-center">
+                Or
+              </p>
+            </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            <div>
+              <label className="text-gray-800 text-sm mb-2 block">First Name</label>
+              <input
+                name="firstName"
+                type="text"
+                value={formData.firstName}
+                onChange={handleChange}
+                className="bg-gray-100 focus:bg-transparent w-full text-sm text-gray-800 px-4 py-3 rounded-md outline-blue-500 transition-all"
+                placeholder="Enter first name"
+                required
+              />
+            </div>
+            <div>
+              <label className="text-gray-800 text-sm mb-2 block">Last Name</label>
+              <input
+                name="lastName"
+                type="text"
+                value={formData.lastName}
+                onChange={handleChange}
+                className="bg-gray-100 focus:bg-transparent w-full text-sm text-gray-800 px-4 py-3 rounded-md outline-blue-500 transition-all"
+                placeholder="Enter last name"
+                required
+              />
+            </div>
+            <div>
+              <label className="text-gray-800 text-sm mb-2 block">Email Id</label>
+              <input
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="bg-gray-100 focus:bg-transparent w-full text-sm text-gray-800 px-4 py-3 rounded-md outline-blue-500 transition-all"
+                placeholder="Enter email"
+                required
+              />
+            </div>
+            <div>
+              <label className="text-gray-800 text-sm mb-2 block">Password</label>
+              <input
+                name="password"
+                type="password"
+                value={formData.password}
+                onChange={handleChange}
+                className="bg-gray-100 focus:bg-transparent w-full text-sm text-gray-800 px-4 py-3 rounded-md outline-blue-500 transition-all"
+                placeholder="Enter password"
+                required
+              />
+            </div>
+            <div>
+              <label className="text-gray-800 text-sm mb-2 block">Department Name</label>
+              <input
+                name="department"
+                type="text"
+                value={formData.department}
+                onChange={handleChange}
+                className="bg-gray-100 focus:bg-transparent w-full text-sm text-gray-800 px-4 py-3 rounded-md outline-blue-500 transition-all"
+                placeholder="Enter department name"
+                required
+              />
+            </div>
+            <div className="mb-6">
+              <label className="text-gray-800 text-sm mb-2 block">Role</label>
+              <div className="bg-gray-100 w-full text-sm text-gray-800 px-4 py-3 rounded-md">
+                Department Head
+              </div>
+            </div>
           </div>
 
-          <div class="grid md:grid-cols-2 gap-8">
-            <div>
-              <label class="text-gray-800 text-sm mb-2 block">First Name</label>
-              <input name="name" type="text" class="bg-gray-100 focus:bg-transparent w-full text-sm text-gray-800 px-4 py-3 rounded-md outline-blue-500 transition-all" placeholder="Enter name" />
-            </div>
-            <div>
-              <label class="text-gray-800 text-sm mb-2 block">Last Name</label>
-              <input name="lname" type="text" class="bg-gray-100 focus:bg-transparent w-full text-sm text-gray-800 px-4 py-3 rounded-md outline-blue-500 transition-all" placeholder="Enter last name" />
-            </div>
-            <div>
-              <label class="text-gray-800 text-sm mb-2 block">Email Id</label>
-              <input name="email" type="text" class="bg-gray-100 focus:bg-transparent w-full text-sm text-gray-800 px-4 py-3 rounded-md outline-blue-500 transition-all" placeholder="Enter email" />
-            </div>
-            <div>
-              <label class="text-gray-800 text-sm mb-2 block">Mobile No.</label>
-              <input name="number" type="number" class="bg-gray-100 focus:bg-transparent w-full text-sm text-gray-800 px-4 py-3 rounded-md outline-blue-500 transition-all" placeholder="Enter mobile number" />
-            </div>
-            <div>
-              <label class="text-gray-800 text-sm mb-2 block">Password</label>
-              <input name="password" type="password" class="bg-gray-100 focus:bg-transparent w-full text-sm text-gray-800 px-4 py-3 rounded-md outline-blue-500 transition-all" placeholder="Enter password" />
-            </div>
-            <div>
-              <label class="text-gray-800 text-sm mb-2 block">Confirm Password</label>
-              <input name="cpassword" type="password" class="bg-gray-100 focus:bg-transparent w-full text-sm text-gray-800 px-4 py-3 rounded-md outline-blue-500 transition-all" placeholder="Enter confirm password" />
-            </div>
-          </div>
-          <div class="mt-8 flex justify-center">
-            <button type="button" class="py-3 w-[900px] px-6 text-sm tracking-wider font-semibold rounded-md text-white bg-blue-500 hover:bg-blue-600 focus:outline-none">
+          <div className="mt-8 flex justify-center">
+            <button
+              type="submit"
+              className="py-3 w-[900px] px-6 text-sm tracking-wider font-semibold rounded-md text-white bg-blue-500 hover:bg-blue-600 focus:outline-none"
+            >
               Sign up
             </button>
           </div>
-        </form>
-        <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8"/>
 
+        </form>
       </div>
     </div>
-    </div>
-  )
+  );
 }

@@ -10,7 +10,6 @@ export default function Navbar() {
         <nav className=" border-gray-200 py-5 text-xl">
             <div className="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
                 <Link to="/" className="flex items-center">
-                    <img src={logo} className="h-6 mr-3 sm:h-9" alt="Landwind Logo" />
                     <span className="self-center text-3xl font-semibold whitespace-nowrap dark:text-white">Civic Alliance</span>
                 </Link>
              
