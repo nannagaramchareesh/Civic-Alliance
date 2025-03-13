@@ -11,7 +11,10 @@ import Contact from './components/Contact'
 import Aboutus from './components/Aboutus'
 import ViewProjects from './components/ViewProjects'
 import { ToastContainer } from 'react-toastify'
+export const backendUrl = process.env.REACT_APP_BACKEND_URL
+
 export default function App() {
+  console.log(backendUrl)
   return (
     <div className='dark:bg-gray-900 bg-gradient-to-b from-blue-950/[.19] via-transparent'>
       <Router>
