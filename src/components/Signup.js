@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { backendUrl } from "../App";
 export default function Signup() {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -23,7 +23,7 @@ export default function Signup() {
     e.preventDefault();
     console.log(formData.firstName)
     try {
-      const response = await axios.post("http://localhost:5000/api/departmentHead/signup", {
+      const response = await axios.post(`${backendUrl}/api/departmentHead/signup`, {
         name:formData.firstName,
         email: formData.email,
         password: formData.password,

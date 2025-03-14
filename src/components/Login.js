@@ -5,11 +5,11 @@ import { backendUrl } from "../App";
 import { toast } from "react-toastify";
 
 export default function Login() {
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
   const handleLogin = async () => {
     setLoading(true);
     try {
