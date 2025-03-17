@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import Example from './Example';
+import AuthContext from '../context/AuthContext';
 import './another.css'
+import { backendUrl } from '../App';
+import axios from 'axios'
+import { toast } from 'react-toastify';
 const AddProject = () => {
-
+    const {token} = useContext(AuthContext)
     const [projectData, setProjectData] = useState({
         projectName: '',
         department: '',
@@ -22,8 +26,22 @@ const AddProject = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        const {projectName,department,location,description,startDate,endDate,resourcesNeeded,interDepartmental} = projectData
+        try{
+            const response=await axios.post(`${backendUrl}/api/departmentHead/addproject`,{projectName,department,location,description,startDate,endDate,resourcesNeeded,interDepartmental},{headers:{"auth-token":token}});
+            console.log(response.data);
+            if(response.data.success){
+                toast.success(response.data.message);
+            }
+            else{
+                toast.error(response.data.message);
+            }
+        }
+        catch(err){
+            toast.error(err.message);
+        }
         console.log(projectData); // Handle form submission logic
     };
 
@@ -137,3 +155,4 @@ const AddProject = () => {
 };
 
 export default AddProject;
+

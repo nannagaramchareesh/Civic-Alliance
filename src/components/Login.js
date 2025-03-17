@@ -10,17 +10,16 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext); // Get login function from context
+  const { login,setToken } = useContext(AuthContext); // Get login function from context
 
   const handleLogin = async () => {
     setLoading(true);
     try {
-      const response = await axios.post(`${backendUrl}/api/departmentHead/login`, { email, password });
-      console.log(response.data);
+      const response = await axios  .post(`${backendUrl}/api/departmentHead/login`, { email, password });
       if (response.data.success) {
         localStorage.setItem("authToken", response.data.token);
         login(response.data.user); // Update user in context
-
+        setToken(response.data.token);
         toast.success(response.data.message);
         navigate("/");
       } else {
