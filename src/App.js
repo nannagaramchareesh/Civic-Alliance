@@ -11,11 +11,13 @@ import Contact from './components/Contact'
 import Aboutus from './components/Aboutus'
 import ViewProjects from './components/ViewProjects'
 import { ToastContainer } from 'react-toastify'
+import AuthStates from './context/AuthStates'
+import Profile from './components/Profile'
 export const backendUrl = process.env.REACT_APP_BACKEND_URL
-
 export default function App() {
   console.log(backendUrl)
   return (
+    <AuthStates>
     <div className='dark:bg-gray-900 bg-gradient-to-b from-blue-950/[.19] via-transparent'>
       <Router>
         <Navbar/>
@@ -28,9 +30,11 @@ export default function App() {
           <Route path='/contact' element={<Contact/>}/>
           <Route path='/about' element={<Aboutus/>}/>
           <Route path='/viewprojects' element={<ViewProjects/>}/>
+          <Route path='/profile' element={<Profile/>}/>
         </Routes>
         <Footer/>
       </Router>
     </div>
+    </AuthStates>
   )
 }

@@ -1,29 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { backendUrl } from "../App";
 import { toast } from "react-toastify";
+import  AuthContext  from "../context/AuthContext"; // Import Auth Context
 
 export default function Login() {
-  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext); // Get login function from context
+
   const handleLogin = async () => {
     setLoading(true);
     try {
       const response = await axios.post(`${backendUrl}/api/departmentHead/login`, { email, password });
-      console.log(response.data)
+      console.log(response.data);
       if (response.data.success) {
         localStorage.setItem("authToken", response.data.token);
+        login(response.data.user); // Update user in context
+
         toast.success(response.data.message);
         navigate("/");
       } else {
         toast.error(response.data.message);
       }
     } catch (err) {
-      toast.error(err.response.data.message);
+      toast.error(err.response?.data?.message || "Login failed");
     } finally {
       setLoading(false);
     }
@@ -37,21 +41,15 @@ export default function Login() {
           <div className="mx-4 mb-4 -mt-16">
             <form className="w-[600px] mx-auto bg-white shadow-[0_2px_13px_-6px_rgba(0,0,0,0.4)] sm:p-8 p-4 rounded-md">
               <div className="md:grid-cols-2 flex flex-col gap-8">
-                <button
-                  type="button"
-                  className="w-full px-6 py-3 flex items-center justify-center rounded-md text-gray-800 text-sm tracking-wider font-semibold border-none outline-none bg-gray-100 hover:bg-gray-200"
-                >
+                <button type="button" className="w-full px-6 py-3 flex items-center justify-center rounded-md text-gray-800 text-sm tracking-wider font-semibold border-none outline-none bg-gray-100 hover:bg-gray-200">
                   Continue with Google
                 </button>
-                <button
-                  type="button"
-                  className="w-full px-6 py-3 flex items-center justify-center rounded-md text-white text-sm tracking-wider font-semibold border-none outline-none bg-black hover:bg-[#333]"
-                >
+                <button type="button" className="w-full px-6 py-3 flex items-center justify-center rounded-md text-white text-sm tracking-wider font-semibold border-none outline-none bg-black hover:bg-[#333]">
                   Continue with Apple
                 </button>
               </div>
   
-              <div className="my-8 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
+              <div className="my-8 flex items-center before:flex-1 before:border-t before:border-neutral-300 after:flex-1 after:border-t after:border-neutral-300">
                 <p className="mx-4 text-center">Or</p>
               </div>
   
@@ -80,7 +78,6 @@ export default function Login() {
                   />
                 </div>
               </div>
-  
   
               <div className="mt-8 flex justify-center">
                 <button
