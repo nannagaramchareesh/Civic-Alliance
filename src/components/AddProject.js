@@ -1,11 +1,13 @@
-import React, { useState,useContext } from 'react';
+import React, { useState,useContext, useEffect } from 'react';
 import Example from './Example';
 import AuthContext from '../context/AuthContext';
 import './another.css'
 import { backendUrl } from '../App';
 import axios from 'axios'
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 const AddProject = () => {
+    const navigate = useNavigate();
     const {token} = useContext(AuthContext)
     const [projectData, setProjectData] = useState({
         projectName: '',
@@ -44,6 +46,11 @@ const AddProject = () => {
         }
         console.log(projectData); // Handle form submission logic
     };
+    useEffect(()=>{
+        if(!token){
+            navigate('/login');
+        }
+    })
 
     return (
         

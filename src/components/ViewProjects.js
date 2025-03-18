@@ -4,6 +4,7 @@ import axios from 'axios'
 import { useEffect } from "react";
 import { backendUrl } from "../App";
 import AuthContext from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 const Card = ({ children, className }) => {
   return (
     <div className={`bg-gray-900 border border-2px border-solid border-white shadow-2xl rounded-2xl p-6 transition-transform w-[1200px]  transform hover:scale-105 hover:shadow-2xl hover:bg-gradient-to-r from-gray-800 to-gray-700 h-[330px] duration-300 ${className}`}>
@@ -29,10 +30,11 @@ const Button = ({ children, onClick, className }) => {
 
 
 const ProjectsList = () => {
+  const navigate = useNavigate();
   const {token} = useContext(AuthContext)
   const [projects,setProjects] = useState([]);
   useEffect(() => {
-    if (!token) return; // Prevent API call if token is not available
+    if (!token) navigate('/login'); // Prevent API call if token is not available
   
     const fetchProjects = async () => {
       try {
@@ -61,7 +63,7 @@ const ProjectsList = () => {
       <div className="grid gap-6 mt-10">
         {projects.map((project,index) => (
           <div className={`flex  justify-center`}>
-            <Card key={project.id} className="relative overflow-hidden">
+            <Card key={project._id} className="relative overflow-hidden">
             <CardContent>
               <h2 className="text-2xl font-bold text-gray-100">{project.projectName}</h2>
               <p className="text-gray-400 font-extrabold mt-2 text-xl">{project.department}</p>

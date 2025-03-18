@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext,useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { backendUrl } from "../App";
@@ -10,8 +10,12 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { login,setToken } = useContext(AuthContext); // Get login function from context
-
+  const { login,setToken ,token} = useContext(AuthContext); // Get login function from context
+  useEffect(() => {
+    if (token) {
+      navigate("/");
+    }
+  }, [token, navigate]);
   const handleLogin = async () => {
     setLoading(true);
     try {
