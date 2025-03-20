@@ -13,6 +13,7 @@ import ViewProjects from './components/ViewProjects'
 import { ToastContainer } from 'react-toastify'
 import AuthStates from './context/AuthStates'
 import Profile from './components/Profile'
+import AddOfficer from './components/AddOfficer3'
 export const backendUrl = process.env.REACT_APP_BACKEND_URL
 export default function App() {
   console.log(backendUrl)
@@ -31,6 +32,7 @@ export default function App() {
           <Route path='/about' element={<Aboutus/>}/>
           <Route path='/viewprojects' element={<ViewProjects/>}/>
           <Route path='/profile' element={<Profile/>}/>
+          <Route path='/addofficer' element={<AddOfficer/>}/>
         </Routes>
         <Footer/>
       </Router>
