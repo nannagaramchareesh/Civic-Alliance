@@ -21,16 +21,16 @@ export default function AddOfficer() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-900 relative overflow-hidden w-full text-gray-100">
+        <div className="min-h-screen flex items-center justify-center bg-gray-800 relative overflow-hidden w-full text-gray-100 px-6">
             {/* Background Gradient */}
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-900 via-gray-800 to-blue-900 opacity-50"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-700 opacity-60"></div>
 
             {/* Left Side Content */}
             <motion.div
                 initial={{ x: -100, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 1 }}
-                className="absolute left-10 top-1/3 max-w-lg text-white"
+                className="absolute left-32 top-1/3 max-w-lg text-white hidden lg:block"
             >
                 <h1 className="text-5xl font-extrabold bg-gradient-to-r from-pink-400 to-blue-400 text-transparent bg-clip-text">
                     Add a New Officer
@@ -45,8 +45,10 @@ export default function AddOfficer() {
                 initial={{ y: 50, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 1.2 }}
-                className="relative w-[550px] bg-white bg-opacity-10 backdrop-blur-lg shadow-2xl rounded-3xl p-10 border border-white/20"
+                className="relative w-full ml-52 max-w-md bg-white bg-opacity-10 backdrop-blur-lg shadow-2xl rounded-3xl p-10 border border-white/20"
             >
+                <h2 className="text-3xl font-bold text-center mb-6 text-gray-200">Register Officer</h2>
+
                 <form onSubmit={handleSubmit} className="space-y-6">
                     {/* Name Input */}
                     <div className="relative">
@@ -57,7 +59,7 @@ export default function AddOfficer() {
                             placeholder="Officer Name"
                             value={officerData.name}
                             onChange={handleChange}
-                            className="w-full pl-12 p-3 bg-transparent text-white border border-gray-400 rounded-full outline-none focus:ring-2 focus:ring-pink-500"
+                            className="w-full pl-12 p-3 bg-transparent text-white border border-gray-500 rounded-full outline-none focus:ring-2 focus:ring-pink-500 hover:border-pink-400 transition"
                             required
                         />
                     </div>
@@ -71,7 +73,7 @@ export default function AddOfficer() {
                             placeholder="Officer Email"
                             value={officerData.email}
                             onChange={handleChange}
-                            className="w-full pl-12 p-3 bg-transparent text-white border border-gray-400 rounded-full outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full pl-12 p-3 bg-transparent text-white border border-gray-500 rounded-full outline-none focus:ring-2 focus:ring-blue-500 hover:border-blue-400 transition"
                             required
                         />
                     </div>
@@ -85,7 +87,7 @@ export default function AddOfficer() {
                             placeholder="Password"
                             value={officerData.password}
                             onChange={handleChange}
-                            className="w-full pl-12 p-3 bg-transparent text-white border border-gray-400 rounded-full outline-none focus:ring-2 focus:ring-green-500"
+                            className="w-full pl-12 p-3 bg-transparent text-white border border-gray-500 rounded-full outline-none focus:ring-2 focus:ring-green-500 hover:border-green-400 transition"
                             required
                         />
                     </div>
@@ -99,7 +101,7 @@ export default function AddOfficer() {
                             placeholder="Department"
                             value={officerData.department}
                             onChange={handleChange}
-                            className="w-full pl-12 p-3 bg-transparent text-white border border-gray-400 rounded-full outline-none focus:ring-2 focus:ring-yellow-500"
+                            className="w-full pl-12 p-3 bg-transparent text-white border border-gray-500 rounded-full outline-none focus:ring-2 focus:ring-yellow-500 hover:border-yellow-400 transition"
                             required
                         />
                     </div>
@@ -112,14 +114,15 @@ export default function AddOfficer() {
                             name="role"
                             value="Officer"
                             disabled
-                            className="w-full pl-12 p-3 bg-gray-700 text-white border border-gray-400 rounded-full outline-none cursor-not-allowed"
+                            className="w-full pl-12 p-3 bg-gray-700 text-white border border-gray-500 rounded-full outline-none cursor-not-allowed"
                         />
                     </div>
 
                     {/* Submit Button */}
                     <motion.button
-                        whileHover={{ scale: 1.1 }}
-                        className="w-full flex items-center justify-center gap-2 py-3 px-5 bg-blue-500 text-white text-lg font-semibold rounded-full hover:bg-blue-600 transition"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="w-full flex items-center justify-center gap-2 py-3 px-5 bg-blue-500 text-white text-lg font-semibold rounded-full hover:bg-blue-600 transition-all"
                         type="submit"
                     >
                         <FaPaperPlane /> Add Officer
