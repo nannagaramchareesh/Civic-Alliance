@@ -6,14 +6,14 @@ import Signup from './components/Signup'
 import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter as Router,Routes,Route} from "react-router-dom";
 import Login from './components/Login'
-import AddProject from './components/AddProject'
+import AddProject from './components/AddProject2'
 import Contact from './components/Contact'
 import Aboutus from './components/Aboutus'
 import ViewProjects from './components/ViewProjects'
 import { ToastContainer } from 'react-toastify'
 import AuthStates from './context/AuthStates'
 import Profile from './components/Profile'
-import AddOfficer from './components/AddOfficer22'
+import AddOfficer from './components/AddOfficerMain'
 export const backendUrl = process.env.REACT_APP_BACKEND_URL
 export default function App() {
   console.log(backendUrl)

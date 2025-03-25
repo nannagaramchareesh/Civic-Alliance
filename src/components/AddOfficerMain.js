@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { FaUser, FaEnvelope, FaLock, FaBuilding, FaUserTie, FaPaperPlane } from "react-icons/fa";
 import { motion } from "framer-motion";
-
+import { backendUrl } from "../App";
+import axios from 'axios'
+import { toast } from "react-toastify";
 export default function AddOfficer() {
     const [officerData, setOfficerData] = useState({
         name: "",
@@ -15,8 +17,20 @@ export default function AddOfficer() {
         setOfficerData({ ...officerData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        try {
+            const response = await axios.post(`${backendUrl}/departmentHead/addOfficer`)
+            console.log(response.data) 
+            if(response.data.success){
+                toast.success(response.data.message)
+            }
+            else{
+                toast.error(response.data.message)
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
         console.log(officerData);
     };
 

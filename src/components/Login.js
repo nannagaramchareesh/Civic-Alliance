@@ -20,9 +20,9 @@ export default function Login() {
     setLoading(true);
     try {
       const response = await axios  .post(`${backendUrl}/api/departmentHead/login`, { email, password });
+      console.log(response.data)
       if (response.data.success) {
-        localStorage.setItem("authToken", response.data.token);
-        login(response.data.user); // Update user in context
+        login(response.data.user,response.data.token); // Update user in context
         setToken(response.data.token);
         toast.success(response.data.message);
         navigate("/");
@@ -62,7 +62,7 @@ export default function Login() {
                   <input
                     name="email"
                     type="text"
-                    className="bg-gray-100 focus:bg-transparent w-full text-sm text-gray-800 px-4 py-3 rounded-md outline-blue-500 transition-all"
+                    className="bg-gray-100 focus:bg-transparent w-full text-sm text-black px-4 py-3 rounded-md outline-blue-500 transition-all"
                     placeholder="Enter email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -74,7 +74,7 @@ export default function Login() {
                   <input
                     name="password"
                     type="password"
-                    className="bg-gray-100 focus:bg-transparent w-full text-sm text-gray-800 px-4 py-3 rounded-md outline-blue-500 transition-all"
+                    className="bg-gray-100 focus:bg-transparent w-full text-sm text-black px-4 py-3 rounded-md outline-blue-500 transition-all"
                     placeholder="Enter password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
