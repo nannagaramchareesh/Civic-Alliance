@@ -50,7 +50,7 @@ const AddProject = () => {
         if(!token){
             navigate('/login');
         }
-    })
+    },[token,navigate])
 
     return (
         

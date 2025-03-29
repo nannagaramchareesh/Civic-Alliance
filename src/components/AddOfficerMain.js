@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState ,useContext} from "react";
 import { FaUser, FaEnvelope, FaLock, FaBuilding, FaUserTie, FaPaperPlane } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { backendUrl } from "../App";
 import axios from 'axios'
 import { toast } from "react-toastify";
+import AuthContext from "../context/AuthContext";
 export default function AddOfficer() {
+    const {token} = useContext(AuthContext)
     const [officerData, setOfficerData] = useState({
         name: "",
         email: "",
@@ -20,7 +22,7 @@ export default function AddOfficer() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`${backendUrl}/departmentHead/addOfficer`)
+            const response = await axios.post(`${backendUrl}/api/departmentHead/addOfficer`,{officerData},{headers:{'auth-token':token}})
             console.log(response.data) 
             if(response.data.success){
                 toast.success(response.data.message)
@@ -31,7 +33,6 @@ export default function AddOfficer() {
         } catch (error) {
             toast.error(error.message)
         }
-        console.log(officerData);
     };
 
     return (

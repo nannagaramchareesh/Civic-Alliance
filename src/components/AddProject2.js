@@ -3,7 +3,9 @@ import { FaRocket, FaMapMarkerAlt, FaRegCalendarAlt, FaFileAlt, FaSitemap, FaToo
 import { motion } from "framer-motion";
 import AuthContext from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-
+import { toast } from "react-toastify";
+import axios from "axios";
+import { backendUrl } from "../App";
 export default function AddProject() {
     const { token } = useContext(AuthContext);
     const navigate = useNavigate();
@@ -27,15 +29,28 @@ export default function AddProject() {
         setProjectData({ ...projectData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit =async (e) => {
         e.preventDefault();
-        console.log("Project Data:", projectData);
+        const { projectName, department, location, description, startDate, endDate, resourcesNeeded, interDepartmental } = projectData
+        try {
+            const response = await axios.post(`${backendUrl}/api/departmentHead/addproject`, { projectName, department, location, description, startDate, endDate, resourcesNeeded, interDepartmental }, { headers: { "auth-token": token } });
+            console.log(response.data);
+            if (response.data.success) {
+                toast.success(response.data.message);
+            }
+            else {
+                toast.error(response.data.message);
+            }
+        }
+        catch (err) {
+            toast.error(err.message);
+        }
     };
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white px-12">
             <div className="flex justify-between items-center w-full max-w-7xl gap-x-16">
-                
+
                 {/* Left Side: Text Section */}
                 <motion.div
                     initial={{ x: -100, opacity: 0 }}
