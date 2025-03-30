@@ -15,6 +15,7 @@ import AuthStates from './context/AuthStates'
 import Profile from './components/Profile'
 import AddOfficer from './components/AddOfficerMain'
 import ProjectDetails from './components/ProjectDetails'
+import CollaborationRequests from './components/CollaborationsRequests'
 export const backendUrl = process.env.REACT_APP_BACKEND_URL
 export default function App() {
   console.log(backendUrl)
@@ -34,6 +35,7 @@ export default function App() {
           <Route path='/viewprojects' element={<ViewProjects/>}/>
           <Route path='/profile' element={<Profile/>}/>
           <Route path='/addofficer' element={<AddOfficer/>}/>
+          <Route path='/collaborationrequests' element={<CollaborationRequests/>}/>
           <Route path="/projects/:id" element={<ProjectDetails />} />
         </Routes>
         <Footer/>

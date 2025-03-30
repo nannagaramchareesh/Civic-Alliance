@@ -24,7 +24,7 @@ const Button = ({ children, onClick, className }) => (
 
 const ProjectsList = () => {
   const navigate = useNavigate();
-  const { token } = useContext(AuthContext);
+  const { token, user } = useContext(AuthContext);
   const [projects, setProjects] = useState([]);
   const [filteredProjects, setFilteredProjects] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -89,6 +89,15 @@ const ProjectsList = () => {
         </h1>
         <p className="text-gray-300 text-center mt-2">Explore the latest projects in different departments.</p>
         <hr className="my-8 border-gray-600" />
+
+        {/* Collaboration Requests Button - Visible only for Department Heads */}
+        {user && user.role === "Department Head" && (
+          <div className="flex justify-center mb-6">
+            <Button onClick={() => navigate("/collaborationrequests")}>
+              Manage Collaboration Requests
+            </Button>
+          </div>
+        )}
 
         {/* Filters Section */}
         <div className="flex flex-wrap justify-center gap-4 mb-10">

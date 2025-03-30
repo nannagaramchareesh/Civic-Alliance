@@ -1,57 +1,87 @@
 import React, { useState, useContext, useEffect } from "react";
-import { FaRocket, FaMapMarkerAlt, FaRegCalendarAlt, FaFileAlt, FaSitemap, FaTools } from "react-icons/fa";
+import { FaRocket, FaRegCalendarAlt, FaTrash, FaPlus } from "react-icons/fa";
 import { motion } from "framer-motion";
 import AuthContext from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { backendUrl } from "../App";
+
 export default function AddProject() {
-    const { token } = useContext(AuthContext);
+    const { token ,user} = useContext(AuthContext);
     const navigate = useNavigate();
 
-    // Redirect if no token
     useEffect(() => {
         if (!token) navigate("/login");
     }, [token, navigate]);
 
     const [projectData, setProjectData] = useState({
         projectName: "",
-        department: "",
-        location: "",
         description: "",
+        location: "",
         startDate: "",
         endDate: "",
         resourcesNeeded: "",
+        collaboratingDepartments: [],
+        department: user.department,
+    });
+
+    const [departmentInput, setDepartmentInput] = useState({
+        name: "",
+        startDate: "",
+        endDate: ""
     });
 
     const handleChange = (e) => {
         setProjectData({ ...projectData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit =async (e) => {
+    const handleDepartmentChange = (e) => {
+        setDepartmentInput({ ...departmentInput, [e.target.name]: e.target.value });
+    };
+    console.log(projectData.collaboratingDepartments)
+
+    const addDepartment = () => {
+        if (departmentInput.name && departmentInput.startDate && departmentInput.endDate) {
+            setProjectData({
+                ...projectData,
+                collaboratingDepartments: [...projectData.collaboratingDepartments, departmentInput]
+            });
+            setDepartmentInput({ name: "", startDate: "", endDate: "" });
+        } else {
+            toast.error("Please fill in all department details.");
+        }
+    };
+
+    const removeDepartment = (index) => {
+        const updatedDepartments = [...projectData.collaboratingDepartments];
+        updatedDepartments.splice(index, 1);
+        setProjectData({ ...projectData, collaboratingDepartments: updatedDepartments });
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const { projectName, department, location, description, startDate, endDate, resourcesNeeded, interDepartmental } = projectData
         try {
-            const response = await axios.post(`${backendUrl}/api/departmentHead/addproject`, { projectName, department, location, description, startDate, endDate, resourcesNeeded, interDepartmental }, { headers: { "auth-token": token } });
-            console.log(response.data);
+            const response = await axios.post(
+                `${backendUrl}/api/departmentHead/addproject`,
+                projectData,
+                { headers: { "auth-token": token } }
+            );
+
             if (response.data.success) {
                 toast.success(response.data.message);
-            }
-            else {
+            } else {
                 toast.error(response.data.message);
             }
-        }
-        catch (err) {
+        } catch (err) {
             toast.error(err.message);
         }
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white px-12">
+        <div className="min-h-screen flex items-center mb-20 justify-center bg-gray-900 text-white px-12">
             <div className="flex justify-between items-center w-full max-w-7xl gap-x-16">
 
-                {/* Left Side: Text Section */}
                 <motion.div
                     initial={{ x: -100, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
@@ -66,76 +96,48 @@ export default function AddProject() {
                     </p>
                 </motion.div>
 
-                {/* Vertical Divider */}
                 <div className="w-[2px] h-80 bg-gradient-to-b from-blue-500 to-purple-500"></div>
 
-                {/* Right Side: Form */}
                 <motion.div
                     initial={{ y: 50, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ duration: 1.2 }}
-                    className="flex-1 max-w-lg bg-white bg-opacity-10 backdrop-blur-lg shadow-2xl rounded-3xl p-10 border border-white/20"
+                    className="flex-1 max-w-lg bg-white bg-opacity-10 backdrop-blur-lg shadow-2xl rounded-3xl p-10 border mt-20 border-white/20"
                 >
                     <h2 className="text-3xl font-bold text-center mb-6 text-gray-200">New Project Details</h2>
 
                     <form onSubmit={handleSubmit} className="space-y-6">
-                        {/* Project Name */}
-                        <div className="relative group">
-                            <FaRocket className="absolute left-4 top-1/2 transform -translate-y-1/2 text-blue-400 text-xl transition-all group-hover:text-pink-500" />
-                            <input
-                                type="text"
-                                name="projectName"
-                                placeholder="Project Name"
-                                value={projectData.projectName}
-                                onChange={handleChange}
-                                className="w-full pl-12 pr-6 py-4 bg-transparent text-white border border-gray-500 rounded-lg outline-none focus:ring-2 focus:ring-pink-500 hover:border-pink-400"
-                                required
-                            />
-                        </div>
 
-                        {/* Department */}
-                        <div className="relative group">
-                            <FaSitemap className="absolute left-4 top-1/2 transform -translate-y-1/2 text-blue-400 text-xl transition-all group-hover:text-green-500" />
-                            <input
-                                type="text"
-                                name="department"
-                                placeholder="Department"
-                                value={projectData.department}
-                                onChange={handleChange}
-                                className="w-full pl-12 pr-6 py-4 bg-transparent text-white border border-gray-500 rounded-lg outline-none focus:ring-2 focus:ring-green-500 hover:border-green-400"
-                                required
-                            />
-                        </div>
+                        <input
+                            type="text"
+                            name="projectName"
+                            placeholder="Project Name"
+                            value={projectData.projectName}
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 bg-transparent text-white border border-gray-500 rounded-lg outline-none focus:ring-2 focus:ring-pink-500 hover:border-pink-400"
+                            required
+                        />
 
-                        {/* Location */}
-                        <div className="relative group">
-                            <FaMapMarkerAlt className="absolute left-4 top-1/2 transform -translate-y-1/2 text-blue-400 text-xl transition-all group-hover:text-yellow-500" />
-                            <input
-                                type="text"
-                                name="location"
-                                placeholder="Project Location"
-                                value={projectData.location}
-                                onChange={handleChange}
-                                className="w-full pl-12 pr-6 py-4 bg-transparent text-white border border-gray-500 rounded-lg outline-none focus:ring-2 focus:ring-yellow-500 hover:border-yellow-400"
-                                required
-                            />
-                        </div>
+                        <textarea
+                            name="description"
+                            placeholder="Project Description"
+                            value={projectData.description}
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 bg-transparent text-white border border-gray-500 rounded-lg outline-none focus:ring-2 focus:ring-red-500 hover:border-red-400 resize-none"
+                            rows="3"
+                            required
+                        />
 
-                        {/* Description */}
-                        <div className="relative group">
-                            <FaFileAlt className="absolute left-4 top-4 text-blue-400 text-xl transition-all group-hover:text-red-500" />
-                            <textarea
-                                name="description"
-                                placeholder="Project Description"
-                                value={projectData.description}
-                                onChange={handleChange}
-                                className="w-full pl-12 pr-6 py-4 bg-transparent text-white border border-gray-500 rounded-lg outline-none focus:ring-2 focus:ring-red-500 hover:border-red-400 resize-none"
-                                rows="3"
-                                required
-                            />
-                        </div>
+                        <input
+                            type="text"
+                            name="location"
+                            placeholder="Project Location"
+                            value={projectData.location}
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 bg-transparent text-white border border-gray-500 rounded-lg outline-none focus:ring-2 focus:ring-yellow-500 hover:border-yellow-400"
+                            required
+                        />
 
-                        {/* Start and End Dates */}
                         <div className="grid grid-cols-2 gap-4">
                             <div className="relative group">
                                 <FaRegCalendarAlt className="absolute left-4 top-1/2 transform -translate-y-1/2 text-blue-400 text-xl transition-all group-hover:text-purple-500" />
@@ -162,7 +164,57 @@ export default function AddProject() {
                             </div>
                         </div>
 
-                        {/* Submit Button */}
+
+                        {/* Department Entry Section */}
+                        <div className="bg-gray-800 p-4 rounded-lg">
+                            <h3 className="text-lg font-semibold text-white">Collaborating Departments</h3>
+
+                            <div className="grid grid-cols-3 gap-2 mt-4">
+                                <input
+                                    type="text"
+                                    name="name"
+                                    placeholder="Department Name"
+                                    value={departmentInput.name}
+                                    onChange={handleDepartmentChange}
+                                    className="col-span-1 px-4 py-2 bg-transparent text-white border border-gray-500 rounded-lg outline-none"
+                                />
+                                <input
+                                    type="date"
+                                    name="startDate"
+                                    value={departmentInput.startDate}
+                                    onChange={handleDepartmentChange}
+                                    className="px-4 py-2 bg-transparent text-white border border-gray-500 rounded-lg outline-none"
+                                />
+                                <input
+                                    type="date"
+                                    name="endDate"
+                                    value={departmentInput.endDate}
+                                    onChange={handleDepartmentChange}
+                                    className="px-4 py-2 bg-transparent text-white border border-gray-500 rounded-lg outline-none"
+                                />
+                            </div>
+
+                            <button
+                                type="button"
+                                onClick={addDepartment}
+                                className="mt-3 flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all"
+                            >
+                                <FaPlus /> Add Department
+                            </button>
+
+                            {/* Display Added Departments */}
+                            <ul className="mt-4">
+                                {projectData.collaboratingDepartments.map((dept, index) => (
+                                    <li key={index} className="flex items-center justify-between p-2 bg-gray-700 rounded-lg mt-2">
+                                        <span>{dept.name} ({dept.startDate} - {dept.endDate})</span>
+                                        <button onClick={() => removeDepartment(index)} className="text-red-400 hover:text-red-500">
+                                            <FaTrash />
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
                         <motion.button
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
