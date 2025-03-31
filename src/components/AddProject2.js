@@ -22,6 +22,7 @@ export default function AddProject() {
         startDate: "",
         endDate: "",
         resourcesNeeded: "",
+        priority:"",
         collaboratingDepartments: [],
         department: user.department,
     });
@@ -31,7 +32,7 @@ export default function AddProject() {
         startDate: "",
         endDate: ""
     });
-
+    
     const handleChange = (e) => {
         setProjectData({ ...projectData, [e.target.name]: e.target.value });
     };
@@ -58,13 +59,25 @@ export default function AddProject() {
         updatedDepartments.splice(index, 1);
         setProjectData({ ...projectData, collaboratingDepartments: updatedDepartments });
     };
-
+    const priorityLevels = {
+        "pipeline": 1,
+        "sewage": 1,
+        "electrical": 1,
+        "road": 2,
+        "pavement": 2,
+        "landscaping": 3,
+    };
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        
+        const departmentPriority = priorityLevels[projectData.department.toLowerCase()] || 3;
+        const updatedProjectData = { ...projectData, priority: departmentPriority };
+        console.log(updatedProjectData);
         try {
             const response = await axios.post(
                 `${backendUrl}/api/departmentHead/addproject`,
-                projectData,
+                updatedProjectData,
                 { headers: { "auth-token": token } }
             );
 
