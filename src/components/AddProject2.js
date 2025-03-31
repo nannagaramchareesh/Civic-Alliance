@@ -71,7 +71,8 @@ export default function AddProject() {
         e.preventDefault();
 
         
-        const departmentPriority = priorityLevels[projectData.department.toLowerCase()] || 3;
+        const departmentPriority = priorityLevels[projectData.department?.toLowerCase()] || 3;
+
         const updatedProjectData = { ...projectData, priority: departmentPriority };
         console.log(updatedProjectData);
         try {
