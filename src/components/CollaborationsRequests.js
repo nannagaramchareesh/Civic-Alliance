@@ -8,39 +8,62 @@ import { FaClock, FaCheck, FaTimes, FaTools, FaFileAlt, FaBuilding } from "react
 
 
 export default function CollaborationRequests() {
-    const { token } = useContext(AuthContext);
+    const { token, user } = useContext(AuthContext);
     const [requests, setRequests] = useState([]);
     const [filter, setFilter] = useState("pending");
 
     useEffect(() => {
-        fetchRequests();
+        fetchRequests("pending");
     }, []);
 
-    const fetchRequests = async () => {
+    const fetchRequests = async (status) => {
         try {
-            const response = await axios.get(`${backendUrl}/api/departmentHead/collaborationRequests`, {
+            const response = await axios.get(`${backendUrl}/api/departmentHead/collaborationRequests?status=${status}`, {
                 headers: { "auth-token": token },
             });
-            console.log(response.data)
+            console.log(response.data);
             setRequests(response.data.requests);
         } catch (err) {
             toast.error("Error fetching requests.");
         }
     };
 
-    const handleAction = async (id, status) => {
+    // Update filter logic to call fetchRequests when button is clicked
+    const handleFilterChange = (status) => {
+        setFilter(status);
+        fetchRequests(status);
+    };
+
+
+    const handleCollaborationDecision = async (projectId, departmentName, status) => {
+
         try {
-            const response = await axios.post(
-                `${backendUrl}/api/departmentHead/updateRequest`,
-                { id, status },
+            const response = await axios.put(
+                ` ${backendUrl}/api/departmentHead/projects/${projectId}/collaboration`,
+                { departmentName, status },
                 { headers: { "auth-token": token } }
             );
-            toast.success(response.data.message);
-            fetchRequests();
-        } catch (err) {
-            toast.error("Error updating request.");
+
+            alert(`Request ${status} successfully!`);
+
+            // Refresh project list to show updated status
+            setRequests((prevProjects) =>
+                prevProjects.map((proj) =>
+                    proj._id === projectId
+                        ? {
+                            ...proj, collaborationRequests: proj.collaborationRequests.map(req =>
+                                req.name === departmentName ? { ...req, status } : req
+                            )
+                        }
+                        : proj
+                )
+            );
+        } catch (error) {
+            console.error("Error updating collaboration request:", error);
+            alert("Failed to update request.");
         }
     };
+
 
     const filteredRequests = requests.filter(req => req.status === filter);
 
@@ -51,21 +74,25 @@ export default function CollaborationRequests() {
             </h1>
 
             {/* Filter Tabs */}
+            {/* Filter Tabs */}
             <div className="flex gap-6 mt-8">
                 {["pending", "approved", "rejected"].map((status) => (
                     <button
                         key={status}
-                        onClick={() => setFilter(status)}
-                        className={`px-6 py-3 rounded-full text-lg font-semibold transition-all ${
-                            filter === status
+                        onClick={() => {
+                            setFilter(status); // ✅ Update the filter state
+                            fetchRequests(status); // ✅ Fetch new data
+                        }}
+                        className={`px-6 py-3 rounded-full text-lg font-semibold transition-all ${filter === status
                                 ? "bg-blue-600 shadow-lg shadow-blue-400"
                                 : "bg-gray-700 hover:bg-blue-500"
-                        }`}
+                            }`}
                     >
                         {status.charAt(0).toUpperCase() + status.slice(1)}
                     </button>
                 ))}
             </div>
+
 
             {/* Requests List */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12 w-full max-w-6xl">
@@ -81,7 +108,7 @@ export default function CollaborationRequests() {
                             <h3 className="text-2xl font-bold text-gray-200">{req.projectName}</h3>
                             <p className="mt-2 text-gray-300 text-xl">Requested by: <span className="font-semibold">{req.requestedBy}</span></p>
                             <p className="mt-1 text-gray-400 text-xl">Start: {new Date(req.startDate).toLocaleDateString()} | End: {new Date(req.endDate).toLocaleDateString()}</p>
-                            
+
                             {/* Status Icons */}
                             <div className="absolute top-4 right-4 text-2xl">
                                 {req.status === "pending" && <FaClock className="text-yellow-400" />}
@@ -95,7 +122,7 @@ export default function CollaborationRequests() {
                                     <motion.button
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}
-                                        onClick={() => handleAction(req.id, "approved")}
+                                        onClick={() => handleCollaborationDecision(req.projectId, user.department, "approved")}
                                         className="px-5 py-2 bg-green-500 text-white rounded-lg text-xl hover:bg-green-600"
                                     >
                                         <FaCheck /> Accept
@@ -103,7 +130,7 @@ export default function CollaborationRequests() {
                                     <motion.button
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}
-                                        onClick={() => handleAction(req.id, "rejected")}
+                                        onClick={() => handleCollaborationDecision(req.projectId, user.department, "rejected")}
                                         className="px-5 py-2 text-xl bg-red-500 text-white rounded-lg hover:bg-red-600"
                                     >
                                         <FaTimes /> Reject

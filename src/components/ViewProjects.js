@@ -41,6 +41,7 @@ const ProjectsList = () => {
         const response = await axios.get(`${backendUrl}/api/departmentHead/viewprojects`, {
           headers: { "auth-token": token },
         });
+        console.log(response.data)
         setProjects(response.data.projects);
         setFilteredProjects(response.data.projects);
       } catch (error) {
