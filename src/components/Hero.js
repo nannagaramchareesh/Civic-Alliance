@@ -2,6 +2,8 @@ import React from 'react'
 import Collab from './Collab'
 import sideimage from '../images/sideimage.svg'
 import Features from './Features'
+import CollabWalkthrough from './CollabWalkthrough'
+import StatsImpactSection from './StatsImpactSection.js'
 
 export default function Hero() {
   return (
@@ -28,8 +30,14 @@ export default function Hero() {
     </section>
 
     <Collab/>
+    {/* <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8"/> */}
 
     <Features/>
+    {/* <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8"/> */}
+
+    <StatsImpactSection/>
+    {/* <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8"/> */}
+
 
     </div>
   )
