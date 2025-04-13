@@ -10,6 +10,7 @@ import AddProject from './components/AddProject2'
 import Contact from './components/Contact'
 import Aboutus from './components/Aboutus'
 import ViewProjects from './components/ViewProjects'
+import Chat from './components/Chat'
 import { ToastContainer } from 'react-toastify'
 import AuthStates from './context/AuthStates'
 import Profile from './components/Profile'
@@ -37,6 +38,7 @@ export default function App() {
           <Route path='/viewprojects' element={<ViewProjects/>}/>
           <Route path='/profile' element={<Profile/>}/>
           <Route path='/addofficer' element={<AddOfficer/>}/>
+          <Route path='/chat' element={<Chat />} />
           <Route path='/collaborationrequests' element={<CollaborationRequests/>}/>
           <Route path="/projects/:id" element={<ProjectDetails />} />
           <Route path="/sentCollaborationRequests" element={ <SentCollaborationRequests/>} />
