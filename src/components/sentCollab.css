@@ -1,0 +1,112 @@
+.sent-collab-container {
+    padding: 3rem 2rem;
+    background: radial-gradient(circle at top left, #0f2027, #203a43, #2c5364);
+    min-height: 100vh;
+    color: #fff;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.sent-collab-title {
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(to right, #00f260, #0575e6);
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: flicker 1.5s infinite alternate;
+}
+
+.sent-collab-subtext {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #a0aec0;
+    margin-bottom: 3rem;
+}
+
+.timeline {
+    position: relative;
+    padding-left: 2rem;
+}
+
+.timeline-entry {
+    position: relative;
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-left: 6px solid #00f260;
+    border-radius: 1rem;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.timeline-entry:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+}
+
+.timeline-icon {
+    position: absolute;
+    top: 1.5rem;
+    left: -2.5rem;
+    background: #00f260;
+    color: #000;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.timeline-content h2 {
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
+}
+
+.timeline-content p {
+    font-size: 1.1rem;
+    margin: 0.3rem 0;
+}
+
+.status-label {
+    margin-top: 1rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.status-label .icon {
+    font-size: 1.4rem;
+}
+
+.status-label .approved {
+    color: #00ff99;
+}
+
+.status-label .rejected {
+    color: #ff4e4e;
+}
+
+.status-label .pending {
+    color: #ffcc00;
+}
+
+.approved {
+    color: #00ff99;
+}
+
+.rejected {
+    color: #ff4e4e;
+}
+
+.pending {
+    color: #ffcc00;
+}
+
+@keyframes flicker {
+    0% { opacity: 1; }
+    100% { opacity: 0.7; }
+}

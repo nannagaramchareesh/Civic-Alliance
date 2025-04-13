@@ -21,13 +21,14 @@ export default function SentCollaborationRequests() {
             });
             console.log(response.data);
             setRequests(response.data.requests);
+            console.log(requests);
         } catch (err) {
             toast.error("Error fetching sent requests.");
         }
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-purple-900 text-white px-10 py-16 flex flex-col items-center">
+        <div className="min-h-screen bg-gray-900     text-white px-10 py-16 flex flex-col items-center">
             <motion.h1
                 initial={{ opacity: 0, y: -50 }}
                 animate={{ opacity: 1, y: 0 }}

@@ -16,7 +16,7 @@ import Profile from './components/Profile'
 import AddOfficer from './components/AddOfficerMain'
 import ProjectDetails from './components/ProjectDetails'
 import CollaborationRequests from './components/CollaborationsRequests'
-import SentCollaborationRequests from './components/SentCollaborationRequests'
+import SentCollaborationRequests from './components/SentRequests'
 import Request from './components/Request'
 export const backendUrl = process.env.REACT_APP_BACKEND_URL
 export default function App() {
