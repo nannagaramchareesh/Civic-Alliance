@@ -2,7 +2,6 @@ import React from 'react'
 import Collab from './Collab'
 import sideimage from '../images/sideimage.svg'
 import Features from './Features'
-import CollabWalkthrough from './CollabWalkthrough'
 import StatsImpactSection from './StatsImpactSection.js'
 
 export default function Hero() {

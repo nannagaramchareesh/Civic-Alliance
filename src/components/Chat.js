@@ -2,6 +2,8 @@ import React, { useEffect, useState, useContext } from 'react';
 import socketIOClient from 'socket.io-client';
 import axios from 'axios';
 import AuthContext from '../context/AuthContext';
+import { ReactComponent as LikeIcon } from '../images/like.svg';
+import { ReactComponent as DislikeIcon } from '../images/dislike.svg';
 
 const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
 const socket = socketIOClient(backendUrl);
@@ -10,18 +12,19 @@ const Chat = () => {
   const { user } = useContext(AuthContext);
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState('');
+  const [reactionStates, setReactionStates] = useState({});
 
   useEffect(() => {
-    axios.get(`${backendUrl}/api/messages`).then((res) => {
-      setMessages(res.data);
+    axios.get(`${backendUrl}/api/departmentHead/addmessage`).then((res) => {
+      setMessages(res.data.reverse()); // Show latest messages at top initially
     });
 
     socket.on('previousMessages', (msgs) => {
-      setMessages(msgs);
+      setMessages(msgs.reverse()); // reverse messages when received initially
     });
 
     socket.on('newMessage', (msg) => {
-      setMessages((prev) => [...prev, msg]);
+      setMessages((prev) => [msg, ...prev]); // Add new message to the top
     });
 
     return () => {
@@ -35,44 +38,123 @@ const Chat = () => {
       const msgData = {
         user: user.name,
         message,
+        timestamp: new Date().toISOString(),
+        likes: 0,
+        dislikes: 0,
       };
       socket.emit('newMessage', msgData);
       setMessage('');
     }
   };
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white font-mono p-4 animate-fade-in">
-      <div className="w-full max-w-2xl glass border border-pink-600/40 rounded-3xl shadow-xl p-6 relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-purple-800/10 via-pink-500/10 to-purple-800/10 rounded-3xl pointer-events-none animate-pulse" />
-        
-        <h1 className="text-4xl font-extrabold text-center mb-6 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 animate-typewriter">
-          {`💬 Hey ${user?.name || 'Guest'}, Welcome to NeonChat!`}
-        </h1>
+  const handleReaction = async (msgId, index, type) => {
+    const currentReaction = reactionStates[msgId];
+    const newType = currentReaction === type ? 'neutral' : type;
 
-        <div className="h-64 overflow-y-auto border border-white/10 bg-white/10 rounded-xl p-4 backdrop-blur-sm mb-4 space-y-2 scrollbar-thin scrollbar-thumb-pink-400 scrollbar-track-transparent">
+    try {
+      const res = await axios.patch(`${backendUrl}/api/departmentHead/${msgId}/reaction`, { type: newType, user: user.name });
+      const updatedMsg = res.data;
+
+      setMessages((prev) =>
+        prev.map((msg, i) => (msg._id === msgId ? { ...msg, ...updatedMsg } : msg))
+      );
+
+      setReactionStates((prev) => ({
+        ...prev,
+        [msgId]: newType === 'neutral' ? null : newType,
+      }));
+    } catch (err) {
+      console.error('Failed to update reaction:', err);
+    }
+  };
+
+  const formatTime = (timestamp) => {
+    const time = new Date(timestamp);
+    const now = new Date();
+    const diffInSeconds = Math.floor((now - time) / 1000);
+
+    const minutes = Math.floor(diffInSeconds / 60);
+    const hours = Math.floor(diffInSeconds / 3600);
+    const days = Math.floor(diffInSeconds / 86400);
+    const months = Math.floor(diffInSeconds / (30 * 86400));
+    const years = Math.floor(diffInSeconds / (365 * 86400));
+
+    if (diffInSeconds < 60) return 'Just now';
+    if (minutes < 60) return `${minutes} minute${minutes !== 1 ? 's' : ''} ago`;
+    if (hours < 24) return `${hours} hour${hours !== 1 ? 's' : ''} ago`;
+    if (days < 30) return `${days} day${days !== 1 ? 's' : ''} ago`;
+    if (months < 12) return `${months} month${months !== 1 ? 's' : ''} ago`;
+    return `${years} year${years !== 1 ? 's' : ''} ago`;
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-900 text-white font-sans p-6">
+      <div className="max-w-3xl mx-auto">
+        <h2 className="text-2xl font-semibold mb-6 border-b pb-2">
+          {user?.name ? `Comments as ${user.name}` : 'Comments'}
+        </h2>
+
+        {/* Message Input at the top */}
+        <div className="flex flex-col space-y-4 mb-8">
+          <textarea
+            rows={3}
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Add a comment..."
+            className="w-full bg-gray-700 text-white p-3 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+          />
+          <div className="flex justify-end">
+            <button
+              onClick={sendMessage}
+              className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-200 disabled:opacity-50"
+              disabled={!message.trim()}
+            >
+              Comment
+            </button>
+          </div>
+        </div>
+
+        {/* Messages List below input */}
+        <div className="space-y-6">
           {messages.map((msg, i) => (
-            <div key={i} className="flex items-start space-x-2">
-              <span className="font-bold text-pink-400">{msg.user}</span>
-              <span>{msg.message}</span>
+            <div key={msg._id} className="flex items-start space-x-4 bg-gray-800 p-4 rounded-lg shadow-md">
+              <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center font-bold text-white">
+                {msg.user.charAt(0).toUpperCase()}
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center space-x-2">
+                  <p className="text-sm font-semibold">{msg.user}</p>
+                  <span className="text-xs text-gray-400">{formatTime(msg.timestamp)}</span>
+                </div>
+                <p className="text-gray-200 mt-1">{msg.message}</p>
+                <div className="flex items-center space-x-4 text-sm mt-2">
+                  <button
+                    onClick={() => handleReaction(msg._id, i, 'like')}
+                    className="flex items-center justify-center"
+                  >
+                    <LikeIcon
+                      className={`w-6 h-6 transition-all duration-200 ${
+                        reactionStates[msg._id] === 'like' ? 'fill-white' : 'fill-gray-400'
+                      }`}
+                    />
+                    <span className="ml-1">{msg.likes || 0}</span>
+                  </button>
+                  <button
+                    onClick={() => handleReaction(msg._id, i, 'dislike')}
+                    className="flex items-center justify-center"
+                  >
+                    <DislikeIcon
+                      className={`w-6 h-6 transition-all duration-200 ${
+                        reactionStates[msg._id] === 'dislike' ? 'fill-white' : 'fill-gray-400'
+                      }`}
+                    />
+                    <span className="ml-1">{msg.dislikes || 0}</span>
+                  </button>
+                </div>
+              </div>
             </div>
           ))}
         </div>
-
-        <textarea
-          rows={3}
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="🚀 Type a message..."
-          className="w-full bg-white/10 text-white p-3 rounded-lg border border-purple-500/30 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500 mb-4"
-        />
-
-        <button
-          onClick={sendMessage}
-          className="w-full py-3 text-white font-semibold bg-gradient-to-r from-pink-500 via-purple-500 to-pink-600 rounded-xl shadow-lg hover:shadow-pink-700/50 transition-all duration-300 animate-glow"
-        >
-          ⚡ Send Message
-        </button>
       </div>
     </div>
   );
