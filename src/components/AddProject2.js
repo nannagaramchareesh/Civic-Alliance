@@ -11,11 +11,11 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function AddProject() {
     const { token, user } = useContext(AuthContext);
     const navigate = useNavigate();
-    const [msg,setMsg] = useState('');
+    const [msg, setMsg] = useState('');
     useEffect(() => {
         if (!token) navigate("/login");
     }, [token, navigate]);
-    const [title,setTitle] = useState('');
+    const [title, setTitle] = useState('');
     const [projectData, setProjectData] = useState({
         projectName: "",
         description: "",
@@ -26,6 +26,7 @@ export default function AddProject() {
         priority: "",
         collaboratingDepartments: [],
         department: user.department,
+        category: "", // Added the category field
     });
 
     const [departmentInput, setDepartmentInput] = useState({
@@ -69,14 +70,26 @@ export default function AddProject() {
         road: 4,           // After all underground work is complete
         pavement: 5,       // Footpaths, usually aligned with road edges
         landscaping: 6     // Final beautification — never before construction!
-      };
-      
+    };
+
+
+    const formatDate = () => {
+        const date = new Date(projectData.endDate);
+
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0"); // getMonth() is zero-indexed
+        const year = date.getFullYear();
+
+        const formatted = `${day}/${month}/${year}`;
+        console.log(formatted); // "07/04/2025"
+
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const departmentPriority = priorityLevels[projectData.department?.toLowerCase()] || 3;
+        const departmentPriority = priorityLevels[projectData.category?.toLowerCase()] || 3;
         const updatedProjectData = { ...projectData, priority: departmentPriority };
-
+        console.log(formatDate())
         try {
             const response = await axios.post(
                 `${backendUrl}/api/departmentHead/addproject`,
@@ -107,9 +120,9 @@ export default function AddProject() {
     };
 
     return (
-        <div className="min-h-screen flex items-center mb-20 justify-center bg-gray-900 text-white px-12">
+        <div className="min-h-screen w-full flex items-center mb-20 justify-center bg-gray-900 text-white ">
             <ToastContainer />
-            <div className="flex justify-between items-center w-full max-w-7xl gap-x-16">
+            <div className="flex ml-36 items-center w-full max-w-7xl">
                 {/* Left Side Text */}
                 <motion.div
                     initial={{ x: -100, opacity: 0 }}
@@ -125,7 +138,7 @@ export default function AddProject() {
                     </p>
                 </motion.div>
 
-                <div className="w-[2px] h-80 bg-gradient-to-b from-blue-500 to-purple-500"></div>
+                <div className="w-[2px] h-80 bg-gradient-to-b from-blue-500 to-purple-500 mr-16 ml-10"></div>
 
                 {/* Right Side Form */}
                 <motion.div
@@ -154,6 +167,25 @@ export default function AddProject() {
                                 <input type="date" name="endDate" value={projectData.endDate} onChange={handleChange} className="w-full pl-12 pr-6 py-4 bg-transparent text-white border border-gray-500 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500 hover:border-indigo-400" required />
                             </div>
                         </div>
+
+                        {/* Category Dropdown */}
+                        <select
+                            name="category"
+                            value={projectData.category}
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 bg-transparent text-white border border-gray-500 rounded-lg outline-none focus:ring-2 focus:ring-green-500 hover:border-green-400"
+                            required
+                        >
+                            <option className="bg-gray-900" value="">Select Category</option>
+                            <option className="bg-gray-900" value="sewage">Sewage</option>
+                            <option className="bg-gray-900" value="sewer">Sewer</option>
+                            <option className="bg-gray-900" value="pipeline">Pipeline</option>
+                            <option className="bg-gray-900" value="water">Water</option>
+                            <option className="bg-gray-900" value="electricity">Electricity</option>
+                            <option className="bg-gray-900" value="road">Road</option>
+                            <option className="bg-gray-900" value="pavement">Pavement</option>
+                            <option className="bg-gray-900" value="landscaping">Landscaping</option>
+                        </select>
 
                         {/* Collaborating Departments */}
                         <div className="bg-gray-800 p-4 rounded-lg">
