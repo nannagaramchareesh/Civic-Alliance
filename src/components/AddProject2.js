@@ -11,11 +11,11 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function AddProject() {
     const { token, user } = useContext(AuthContext);
     const navigate = useNavigate();
-
+    const [msg,setMsg] = useState('');
     useEffect(() => {
         if (!token) navigate("/login");
     }, [token, navigate]);
-
+    const [title,setTitle] = useState('');
     const [projectData, setProjectData] = useState({
         projectName: "",
         description: "",
@@ -61,13 +61,16 @@ export default function AddProject() {
     };
 
     const priorityLevels = {
-        pipeline: 1,
-        sewage: 1,
-        electrical: 1,
-        road: 2,
-        pavement: 2,
-        landscaping: 3,
-    };
+        sewage: 1,         // Must be laid first — foundational for drainage
+        sewer: 1,          // Same as sewage; grouped together
+        pipeline: 2,       // Water, gas, communication lines — before surfacing
+        water: 2,          // Same trenching zone — often overlaps with pipeline
+        electricity: 3,    // Underground cabling — must avoid interference with water/sewage
+        road: 4,           // After all underground work is complete
+        pavement: 5,       // Footpaths, usually aligned with road edges
+        landscaping: 6     // Final beautification — never before construction!
+      };
+      
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -91,9 +94,12 @@ export default function AddProject() {
                     draggable: true,
                     theme: "colored",
                 });
-                setTimeout(() => navigate("/dashboard"), 3000); // Redirect after toast
+                // setTimeout(() => navigate("/"), 3000); // Redirect after toast
             } else {
                 setPriorityConflictModal(true);
+                console.log(response.data)
+                setTitle(response.data.title)
+                setMsg(response.data.message)
             }
         } catch (err) {
             setPriorityConflictModal(true);
@@ -182,10 +188,10 @@ export default function AddProject() {
             {/* Modal for Priority Conflict */}
             {priorityConflictModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/30">
-                    <div className="bg-white/10 border border-white/20 backdrop-blur-xl shadow-2xl rounded-2xl p-6 w-[90%] max-w-md text-white">
-                        <h3 className="text-2xl font-bold mb-3 text-pink-400">Priority Conflict 🚫</h3>
-                        <p className="text-sm text-gray-200 mb-6">
-                            A lower-priority project already exists. You cannot proceed with this submission due to a priority conflict.
+                    <div className="bg-white/10 border border-white/20 backdrop-blur-xl shadow-2xl rounded-2xl p-6 w-[550px] text-white">
+                        <h3 className="text-2xl font-bold mb-3 text-pink-400">{title} 🚫</h3>
+                        <p className="text-xl text-gray-200 mb-6">
+                            {msg}
                         </p>
                         <div className="flex justify-end">
                             <button
