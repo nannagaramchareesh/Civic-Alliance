@@ -12,9 +12,12 @@ export default function AddProject() {
     const { token, user } = useContext(AuthContext);
     const navigate = useNavigate();
     const [msg, setMsg] = useState('');
+    const [loading, setLoading] = useState(false);
+
     useEffect(() => {
         if (!token) navigate("/login");
     }, [token, navigate]);
+
     const [title, setTitle] = useState('');
     const [projectData, setProjectData] = useState({
         projectName: "",
@@ -26,7 +29,7 @@ export default function AddProject() {
         priority: "",
         collaboratingDepartments: [],
         department: user.department,
-        category: "", // Added the category field
+        category: "",
     });
 
     const [departmentInput, setDepartmentInput] = useState({
@@ -62,34 +65,31 @@ export default function AddProject() {
     };
 
     const priorityLevels = {
-        sewage: 1,         // Must be laid first — foundational for drainage
-        sewer: 1,          // Same as sewage; grouped together
-        pipeline: 2,       // Water, gas, communication lines — before surfacing
-        water: 2,          // Same trenching zone — often overlaps with pipeline
-        electricity: 3,    // Underground cabling — must avoid interference with water/sewage
-        road: 4,           // After all underground work is complete
-        pavement: 5,       // Footpaths, usually aligned with road edges
-        landscaping: 6     // Final beautification — never before construction!
+        sewage: 1,
+        sewer: 1,
+        pipeline: 2,
+        water: 2,
+        electricity: 3,
+        road: 4,
+        pavement: 5,
+        landscaping: 6,
     };
-
 
     const formatDate = () => {
         const date = new Date(projectData.endDate);
-
         const day = String(date.getDate()).padStart(2, "0");
-        const month = String(date.getMonth() + 1).padStart(2, "0"); // getMonth() is zero-indexed
+        const month = String(date.getMonth() + 1).padStart(2, "0");
         const year = date.getFullYear();
-
-        const formatted = `${day}/${month}/${year}`;
-        console.log(formatted); // "07/04/2025"
-
-    }
+        return `${day}/${month}/${year}`;
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         const departmentPriority = priorityLevels[projectData.category?.toLowerCase()] || 3;
         const updatedProjectData = { ...projectData, priority: departmentPriority };
-        console.log(formatDate())
+        console.log(formatDate());
+
         try {
             const response = await axios.post(
                 `${backendUrl}/api/departmentHead/addproject`,
@@ -107,23 +107,22 @@ export default function AddProject() {
                     draggable: true,
                     theme: "colored",
                 });
-                // setTimeout(() => navigate("/"), 3000); // Redirect after toast
             } else {
                 setPriorityConflictModal(true);
-                console.log(response.data)
-                setTitle(response.data.title)
-                setMsg(response.data.message)
+                setTitle(response.data.title);
+                setMsg(response.data.message);
             }
         } catch (err) {
             setPriorityConflictModal(true);
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen w-full flex items-center mb-20 justify-center bg-gray-900 text-white ">
+        <div className="min-h-screen w-full flex items-center mb-20 justify-center bg-gray-900 text-white">
             <ToastContainer />
             <div className="flex ml-36 items-center w-full max-w-7xl">
-                {/* Left Side Text */}
                 <motion.div
                     initial={{ x: -100, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
@@ -140,7 +139,6 @@ export default function AddProject() {
 
                 <div className="w-[2px] h-80 bg-gradient-to-b from-blue-500 to-purple-500 mr-16 ml-10"></div>
 
-                {/* Right Side Form */}
                 <motion.div
                     initial={{ y: 50, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
@@ -150,7 +148,6 @@ export default function AddProject() {
                     <h2 className="text-3xl font-bold text-center mb-6 text-gray-200">New Project Details</h2>
 
                     <form onSubmit={handleSubmit} className="space-y-6">
-                        {/* Project Inputs */}
                         <input type="text" name="projectName" placeholder="Project Name" value={projectData.projectName} onChange={handleChange} className="w-full px-4 py-3 bg-transparent text-white border border-gray-500 rounded-lg outline-none focus:ring-2 focus:ring-pink-500 hover:border-pink-400" required />
 
                         <textarea name="description" placeholder="Project Description" value={projectData.description} onChange={handleChange} className="w-full px-4 py-3 bg-transparent text-white border border-gray-500 rounded-lg outline-none focus:ring-2 focus:ring-red-500 hover:border-red-400 resize-none" rows="3" required />
@@ -168,7 +165,6 @@ export default function AddProject() {
                             </div>
                         </div>
 
-                        {/* Category Dropdown */}
                         <select
                             name="category"
                             value={projectData.category}
@@ -187,7 +183,6 @@ export default function AddProject() {
                             <option className="bg-gray-900" value="landscaping">Landscaping</option>
                         </select>
 
-                        {/* Collaborating Departments */}
                         <div className="bg-gray-800 p-4 rounded-lg">
                             <h3 className="text-lg font-semibold text-white">Collaborating Departments</h3>
                             <div className="grid grid-cols-3 gap-2 mt-4">
@@ -210,14 +205,26 @@ export default function AddProject() {
                             </ul>
                         </div>
 
-                        <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full flex items-center justify-center gap-2 py-3 px-5 bg-blue-500 text-white text-lg font-semibold rounded-full hover:bg-blue-600 transition-all" type="submit">
-                            <FaRocket /> Create Project
+                        <motion.button
+                            whileHover={!loading ? { scale: 1.05 } : {}}
+                            whileTap={!loading ? { scale: 0.95 } : {}}
+                            className={`w-full flex items-center justify-center gap-2 py-3 px-5 text-white text-lg font-semibold rounded-full transition-all 
+                                ${loading ? 'bg-blue-300 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'}`}
+                            type="submit"
+                            disabled={loading}
+                        >
+                            {loading ? (
+                                <span className="animate-spin rounded-full h-5 w-5 border-t-2 border-white border-solid" />
+                            ) : (
+                                <>
+                                    <FaRocket /> Create Project
+                                </>
+                            )}
                         </motion.button>
                     </form>
                 </motion.div>
             </div>
 
-            {/* Modal for Priority Conflict */}
             {priorityConflictModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/30">
                     <div className="bg-white/10 border border-white/20 backdrop-blur-xl shadow-2xl rounded-2xl p-6 w-[550px] text-white">
