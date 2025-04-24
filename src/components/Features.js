@@ -144,7 +144,7 @@ export default function Features() {
                                 d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
                             </path>
                         </svg> */}
-                        <img src={sideimage4} className='white' alt=""/>
+                        <img src={sideimage2} className='white' alt=""/>
                     </div>
                     <div className="flex-1">
                         <h5 className="mb-3 text-xl font-bold lg:text-2xl text-white">Alliance Requests</h5>

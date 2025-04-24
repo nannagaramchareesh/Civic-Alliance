@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from './components/Navbar'
-import Hero from './components/Hero'
+import Hero from './components/Hero2'
 import Footer from './components/Footer'
 import Signup from './components/Signup'
 import "react-toastify/dist/ReactToastify.css";
