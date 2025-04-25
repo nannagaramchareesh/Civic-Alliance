@@ -25,7 +25,7 @@ export default function Login() {
         email,
         password,
       });
-      console.log(response.data);
+      console.log(response.data); 
       if (response.data.success) {
         login(response.data.user, response.data.token); // Update user in context
         setToken(response.data.token);

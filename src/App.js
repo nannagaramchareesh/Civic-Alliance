@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from './components/Navbar'
-import Hero from './components/Hero2'
+import Hero from './components/Hero'
 import Footer from './components/Footer'
 import Signup from './components/Signup'
 import "react-toastify/dist/ReactToastify.css";
@@ -19,6 +19,7 @@ import ProjectDetails from './components/ProjectDetails'
 import CollaborationRequests from './components/CollaborationsRequests'
 import SentCollaborationRequests from './components/SentRequests'
 import Request from './components/Request'
+import DashboardAnalytics from './components/DashboardAnalytics'
 export const backendUrl = process.env.REACT_APP_BACKEND_URL
 export default function App() {
   console.log(backendUrl)
@@ -43,6 +44,7 @@ export default function App() {
           <Route path="/projects/:id" element={<ProjectDetails />} />
           <Route path="/sentCollaborationRequests" element={ <SentCollaborationRequests/>} />
           <Route path="/request" element={ <Request/>} />
+          <Route path="/overview" element={<DashboardAnalytics/>} />
         </Routes>
         <Footer/>
       </Router>

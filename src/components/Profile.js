@@ -49,14 +49,14 @@ export default function Profile() {
             <p className="flex items-center gap-4">
               <FaBriefcase className="text-green-400" /> <strong>Role:</strong> {user.role}
             </p>
-            <p className="flex items-center gap-4">
+            <p className="flex items-center gap-4 ">
               {user.status === "Approved" ? (
                 <FaCheckCircle className="text-green-400" />
               ) : (
                 <FaTimesCircle className="text-red-400" />
               )}
               <strong>Status:</strong> {user.status}
-            </p>
+            </p>     
             {user.phone && (
               <p className="flex items-center gap-4">
                 <FaPhone className="text-yellow-400" /> <strong>Phone:</strong> {user.phone}

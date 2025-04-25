@@ -7,6 +7,12 @@
             return storedUser ? JSON.parse(storedUser) : null;
         });
 
+        const [department,setDepartment] = useState(() => {
+            return localStorage.getItem("department") || null;
+        }
+            
+            );
+
         const [token, setToken] = useState(() => {
             return localStorage.getItem("authToken") || null;
         });
@@ -22,6 +28,8 @@
         const login = (userData, authToken) => {
             localStorage.setItem("user", JSON.stringify(userData));
             localStorage.setItem("authToken", authToken);
+            localStorage.setItem('department',userData.department)
+            setDepartment(userData.department)
             setUser(userData);
             setToken(authToken);
         };
@@ -34,7 +42,7 @@
         };
 
         return (
-            <AuthContext.Provider value={{ user, login, logout, token, setToken }}>
+            <AuthContext.Provider value={{ user, login, logout, token, setToken ,department}}>
                 {props.children}
             </AuthContext.Provider>
         );

@@ -6,12 +6,11 @@ import axios from 'axios'
 import { toast } from "react-toastify";
 import AuthContext from "../context/AuthContext";
 export default function AddOfficer() {
-    const {token} = useContext(AuthContext)
+    const {token,department} = useContext(AuthContext)
     const [officerData, setOfficerData] = useState({
         name: "",
         email: "",
         password: "",
-        department: "",
         role: "Officer",
     });
 
@@ -22,7 +21,8 @@ export default function AddOfficer() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`${backendUrl}/api/departmentHead/addOfficer`,{officerData},{headers:{'auth-token':token}})
+            console.log(department)
+            const response = await axios.post(`${backendUrl}/api/departmentHead/addOfficer`,{officerData,department},{headers:{'auth-token':token}})
             console.log(response.data) 
             if(response.data.success){
                 toast.success(response.data.message)
@@ -118,7 +118,7 @@ export default function AddOfficer() {
                                 type="text"
                                 name="department"
                                 placeholder="Department"
-                                value={officerData.department}
+                                value={department}
                                 onChange={handleChange}
                                 className="w-full pl-12 p-3 bg-transparent text-white border border-gray-500 rounded-full outline-none focus:ring-2 focus:ring-yellow-500 hover:border-yellow-400 transition"
                                 required
