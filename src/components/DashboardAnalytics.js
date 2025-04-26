@@ -1,5 +1,9 @@
 import { Pie, Bar } from 'react-chartjs-2';
+import AuthContext from '../context/AuthContext';
+import { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import {
+
   Chart as ChartJS,
   ArcElement,
   Tooltip,
@@ -12,6 +16,7 @@ import {
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement);
 
 const DashboardAnalytics = () => {
+  const { user } = useContext(AuthContext);
     const projectStatusData = {
         labels: ['Ongoing', 'Completed'],
         datasets: [
@@ -43,6 +48,12 @@ const DashboardAnalytics = () => {
           <h2 className="text-4xl font-extrabold tracking-tight text-white">
             🚀 Dashboard Analytics
           </h2>
+          {user.role === "Department Head" && (
+  <Link to="/viewpending" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mt-8 animate-pulse">
+    🚀 Review Pending Projects
+  </Link>
+)}
+
         </div>
 
         {/* Charts Section */}
