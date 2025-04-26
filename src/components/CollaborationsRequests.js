@@ -18,7 +18,7 @@ export default function CollaborationRequests() {
 
     const fetchRequests = async (status) => {
         try {
-            const response = await axios.get(`${backendUrl}/api/departmentHead/collaborationRequests?status=${status}`, {
+            const response = await axios.post(`${backendUrl}/api/departmentHead/collaborationRequests?status=${status}`,{department:user.department}, {
                 headers: { "auth-token": token },
             });
             console.log(response.data);

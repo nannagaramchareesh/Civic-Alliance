@@ -7,7 +7,9 @@ import { FaCheck, FaTimes, FaHourglassHalf } from "react-icons/fa";
 import { toast } from "react-toastify";
 
 export default function SentCollaborationRequests() {
-    const { token } = useContext(AuthContext);
+
+
+    const { user,token } = useContext(AuthContext);
     const [requests, setRequests] = useState([]);
 
     useEffect(() => {
@@ -16,10 +18,10 @@ export default function SentCollaborationRequests() {
 
     const fetchRequests = async () => {
         try {
-            const response = await axios.get(`${backendUrl}/api/departmentHead/sentCollaborationRequests`, {
-                headers: { "auth-token": token },
-            });
-            setRequests(response.data.requests);
+            const response = await axios.post(`${backendUrl}/api/departmentHead/sentCollaborationRequests`, {
+                department: user.department
+              });
+                          setRequests(response.data.requests);
         } catch (error) {
             toast.error("Failed to fetch collaboration requests.");
         }

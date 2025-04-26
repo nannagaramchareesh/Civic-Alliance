@@ -93,7 +93,7 @@ export default function AddProject() {
         try {
             const response = await axios.post(
                 `${backendUrl}/api/departmentHead/addproject`,
-                updatedProjectData,
+                {role:user.role,updatedProjectData,id:user._id},
                 { headers: { "auth-token": token } }
             );
 

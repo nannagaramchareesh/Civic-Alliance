@@ -3,14 +3,16 @@ import './another.css';
 import sideimage from '../images/new-project.svg'
 import sideimage1 from '../images/search.svg'
 import sideimage2 from '../images/video-conference.svg'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import addofficer from '../images/addofficer.svg'
-import sideimage4 from '../images/collaborationimage.webp'
+import AuthContext from '../context/AuthContext';
+import { useContext } from 'react';
 export default function Features() {
+    const { user } = useContext(AuthContext);
     return (
         <div id='features' className=''>
             <div className="grid gap-8 md:grid-cols-2 lg:gap-12 ml-16 md:p-10 mt-12">
-            <Link to="/AddProject"
+                <Link to="/AddProject"
                     className="flex  backdrop-filter hover:bg-gray-50 hover:bg-opacity-10 flex-col p-6 space-y-6  rounded-[40px] shadow lg:p-8 lg:flex-row lg:space-y-0 lg:space-x-6 card animated-card" id="discussionCard">
                     <div
                         className="flex items-center justify-center w-16 h-16  rounded-full shadow-inner lg:h-20 lg:w-20">
@@ -20,12 +22,12 @@ export default function Features() {
                                 d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
                             </path>
                         </svg> */}
-                        <img src={sideimage} alt=""/>
+                        <img src={sideimage} alt="" />
                     </div>
                     <div className="flex-1">
                         <h5 className="mb-3 text-xl font-bold lg:text-2xl text-white">Add Project</h5>
                         <p className="mb-6 text-lg text-slate-400">
-                        Add new projects, assign tasks, and manage interdepartmental collaboration efficiently.</p>
+                            Add new projects, assign tasks, and manage interdepartmental collaboration efficiently.</p>
                         <div className="animated-arrow">
                             <span className="the-arrow -left">
                                 <span className="shaft"></span>
@@ -51,8 +53,8 @@ export default function Features() {
                                 d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
                             </path>
                         </svg> */}
-                        <img src={sideimage1} alt=""/>
-                        
+                        <img src={sideimage1} alt="" />
+
                     </div>
                     <div className="flex-1">
                         <h5 className="mb-3 text-xl font-bold lg:text-2xl text-white">View Project</h5>
@@ -72,7 +74,7 @@ export default function Features() {
                         </div>
                     </div>
                 </Link>
-                <Link to="/addofficer"
+                {user.role === 'Department Head' && <Link to="/addofficer"
                     className="flex  backdrop-filter hover:bg-gray-50 hover:bg-opacity-10 flex-col p-6 space-y-6  rounded-[40px] shadow lg:p-8 lg:flex-row lg:space-y-0 lg:space-x-6 card animated-card" id="discussionCard">
                     <div
                         className="flex items-center justify-center w-16 h-16  rounded-full shadow-inner lg:h-20 lg:w-20">
@@ -82,8 +84,8 @@ export default function Features() {
                                 d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
                             </path>
                         </svg> */}
-                        <img src={addofficer} alt=""/>
-                        
+                        <img src={addofficer} alt="" />
+
                     </div>
                     <div className="flex-1">
                         <h5 className="mb-3 text-xl font-bold lg:text-2xl text-white">Add Officers</h5>
@@ -102,7 +104,7 @@ export default function Features() {
                             </span>
                         </div>
                     </div>
-                </Link>
+                </Link>}
 
                 <Link to="/chat"
                     className="flex  backdrop-filter hover:bg-gray-50 hover:bg-opacity-10 flex-col p-6 space-y-6  rounded-[40px] shadow lg:p-8 lg:flex-row lg:space-y-0 lg:space-x-6 card animated-card" id="discussionCard">
@@ -114,7 +116,7 @@ export default function Features() {
                                 d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
                             </path>
                         </svg> */}
-                        <img src={sideimage2} alt=""/>
+                        <img src={sideimage2} alt="" />
                     </div>
                     <div className="flex-1">
                         <h5 className="mb-3 text-xl font-bold lg:text-2xl text-white">Discussion Forum</h5>
@@ -134,7 +136,7 @@ export default function Features() {
                         </div>
                     </div>
                 </Link>
-                <Link to="/collaborationrequests"
+                {user.role === 'Department Head' && <Link to="/collaborationrequests"
                     className="flex  backdrop-filter hover:bg-gray-50 hover:bg-opacity-10 flex-col p-6 space-y-6  rounded-[40px] shadow lg:p-8 lg:flex-row lg:space-y-0 lg:space-x-6 card animated-card" id="discussionCard">
                     <div
                         className="flex items-center justify-center w-16 h-16  rounded-full shadow-inner lg:h-20 lg:w-20">
@@ -144,7 +146,7 @@ export default function Features() {
                                 d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
                             </path>
                         </svg> */}
-                        <img src={sideimage2} className='white' alt=""/>
+                        <img src={sideimage2} className='white' alt="" />
                     </div>
                     <div className="flex-1">
                         <h5 className="mb-3 text-xl font-bold lg:text-2xl text-white">Alliance Requests</h5>
@@ -165,6 +167,7 @@ export default function Features() {
                         </div>
                     </div>
                 </Link>
+                }
                 <Link to="/sentCollaborationRequests"
                     className="flex  backdrop-filter hover:bg-gray-50 hover:bg-opacity-10 flex-col p-6 space-y-6  rounded-[40px] shadow lg:p-8 lg:flex-row lg:space-y-0 lg:space-x-6 card animated-card" id="discussionCard">
                     <div
@@ -175,7 +178,7 @@ export default function Features() {
                                 d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
                             </path>
                         </svg> */}
-                        <img src={sideimage2} alt=""/>
+                        <img src={sideimage2} alt="" />
                     </div>
                     <div className="flex-1">
                         <h5 className="mb-3 text-xl font-bold lg:text-2xl text-white">Track Sent Requests</h5>
