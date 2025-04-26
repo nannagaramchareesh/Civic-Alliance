@@ -4,13 +4,13 @@ import AuthContext from "../context/AuthContext";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { backendUrl } from "../App";
-import { FaClock, FaCheck, FaTimes, FaTools, FaFileAlt, FaBuilding } from "react-icons/fa";
-
+import { FaClock, FaCheck, FaTimes } from "react-icons/fa";
 
 export default function CollaborationRequests() {
     const { token, user } = useContext(AuthContext);
     const [requests, setRequests] = useState([]);
     const [filter, setFilter] = useState("pending");
+    const [message, setMessage] = useState('');
 
     useEffect(() => {
         fetchRequests("pending");
@@ -18,9 +18,11 @@ export default function CollaborationRequests() {
 
     const fetchRequests = async (status) => {
         try {
-            const response = await axios.post(`${backendUrl}/api/departmentHead/collaborationRequests?status=${status}`,{department:user.department}, {
-                headers: { "auth-token": token },
-            });
+            const response = await axios.post(
+                `${backendUrl}/api/departmentHead/collaborationRequests?status=${status}`,
+                { department: user.department },
+                { headers: { "auth-token": token } }
+            );
             console.log(response.data);
             setRequests(response.data.requests);
         } catch (err) {
@@ -28,42 +30,49 @@ export default function CollaborationRequests() {
         }
     };
 
-    // Update filter logic to call fetchRequests when button is clicked
     const handleFilterChange = (status) => {
         setFilter(status);
         fetchRequests(status);
     };
 
-
     const handleCollaborationDecision = async (projectId, departmentName, status) => {
+        console.log('Message:', message); // ✅ now using correct ID
+        if (!message.trim()) {
+            alert("Please enter a message before submitting!");
+            return;
+        }
 
         try {
             const response = await axios.put(
-                ` ${backendUrl}/api/departmentHead/projects/${projectId}/collaboration`,
-                { departmentName, status },
+                `${backendUrl}/api/departmentHead/projects/${projectId}/collaboration`,
+                { departmentName, status, message },
                 { headers: { "auth-token": token } }
             );
 
             alert(`Request ${status} successfully!`);
 
-            // Refresh project list to show updated status
+            // Refresh project list locally
             setRequests((prevProjects) =>
                 prevProjects.map((proj) =>
                     proj._id === projectId
                         ? {
-                            ...proj, collaborationRequests: proj.collaborationRequests.map(req =>
+                            ...proj,
+                            collaborationRequests: proj.collaborationRequests.map(req =>
                                 req.name === departmentName ? { ...req, status } : req
                             )
                         }
                         : proj
                 )
             );
+
+            // Clear the message after decision
+        
+
         } catch (error) {
             console.error("Error updating collaboration request:", error);
             alert("Failed to update request.");
         }
     };
-
 
     const filteredRequests = requests.filter(req => req.status === filter);
 
@@ -74,18 +83,14 @@ export default function CollaborationRequests() {
             </h1>
 
             {/* Filter Tabs */}
-            {/* Filter Tabs */}
             <div className="flex gap-6 mt-8">
                 {["pending", "approved", "rejected"].map((status) => (
                     <button
                         key={status}
-                        onClick={() => {
-                            setFilter(status); // ✅ Update the filter state
-                            fetchRequests(status); // ✅ Fetch new data
-                        }}
+                        onClick={() => handleFilterChange(status)}
                         className={`px-6 py-3 rounded-full text-lg font-semibold transition-all ${filter === status
-                                ? "bg-blue-600 shadow-lg shadow-blue-400"
-                                : "bg-gray-700 hover:bg-blue-500"
+                            ? "bg-blue-600 shadow-lg shadow-blue-400"
+                            : "bg-gray-700 hover:bg-blue-500"
                             }`}
                     >
                         {status.charAt(0).toUpperCase() + status.slice(1)}
@@ -93,21 +98,24 @@ export default function CollaborationRequests() {
                 ))}
             </div>
 
-
             {/* Requests List */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12 w-full max-w-6xl">
                 {filteredRequests.length > 0 ? (
                     filteredRequests.map((req, index) => (
                         <motion.div
-                            key={req.id}
+                            key={req._id}
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.1 }}
                             className="relative p-6 bg-white bg-opacity-10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-xl"
                         >
                             <h3 className="text-2xl font-bold text-gray-200">{req.projectName}</h3>
-                            <p className="mt-2 text-gray-300 text-xl">Requested by: <span className="font-semibold">{req.requestedBy}</span></p>
-                            <p className="mt-1 text-gray-400 text-xl">Start: {new Date(req.startDate).toLocaleDateString()} | End: {new Date(req.endDate).toLocaleDateString()}</p>
+                            <p className="mt-2 text-gray-300 text-xl">
+                                Requested by: <span className="font-semibold">{req.requestedBy}</span>
+                            </p>
+                            <p className="mt-1 text-gray-400 text-xl">
+                                Start: {new Date(req.startDate).toLocaleDateString()} | End: {new Date(req.endDate).toLocaleDateString()}
+                            </p>
 
                             {/* Status Icons */}
                             <div className="absolute top-4 right-4 text-2xl">
@@ -116,25 +124,36 @@ export default function CollaborationRequests() {
                                 {req.status === "rejected" && <FaTimes className="text-red-400" />}
                             </div>
 
-                            {/* Action Buttons */}
+                            {/* Message Box + Action Buttons */}
                             {req.status === "pending" && (
-                                <div className="mt-4 flex gap-4">
-                                    <motion.button
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
-                                        onClick={() => handleCollaborationDecision(req.projectId, user.department, "approved")}
-                                        className="px-5 py-2 bg-green-500 text-white rounded-lg text-xl hover:bg-green-600"
-                                    >
-                                        <FaCheck /> Accept
-                                    </motion.button>
-                                    <motion.button
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
-                                        onClick={() => handleCollaborationDecision(req.projectId, user.department, "rejected")}
-                                        className="px-5 py-2 text-xl bg-red-500 text-white rounded-lg hover:bg-red-600"
-                                    >
-                                        <FaTimes /> Reject
-                                    </motion.button>
+                                <div className="mt-6 flex flex-col gap-4">
+                                    <textarea
+                                        className="w-full p-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none"
+                                        rows="3"
+                                        placeholder="Enter your message for approval or rejection..."
+                                        value={message}
+                                        onChange={(e) => setMessage(e.target.value)}
+                                    />
+
+                                    <div className="flex gap-4">
+                                        <motion.button
+                                            whileHover={{ scale: 1.05 }}
+                                            whileTap={{ scale: 0.95 }}
+                                            onClick={() => handleCollaborationDecision(req.projectId, user.department, "approved")}
+                                            className="flex-1 px-5 py-2 bg-green-500 text-white rounded-lg text-xl hover:bg-green-600"
+                                        >
+                                            <FaCheck className="inline mr-2" /> Accept
+                                        </motion.button>
+
+                                        <motion.button
+                                            whileHover={{ scale: 1.05 }}
+                                            whileTap={{ scale: 0.95 }}
+                                            onClick={() => handleCollaborationDecision(req.projectId, user.department, "rejected")}
+                                            className="flex-1 px-5 py-2 text-xl bg-red-500 text-white rounded-lg hover:bg-red-600"
+                                        >
+                                            <FaTimes className="inline mr-2" /> Reject
+                                        </motion.button>
+                                    </div>
                                 </div>
                             )}
                         </motion.div>

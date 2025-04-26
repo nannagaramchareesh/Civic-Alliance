@@ -21,7 +21,8 @@ export default function SentCollaborationRequests() {
             const response = await axios.post(`${backendUrl}/api/departmentHead/sentCollaborationRequests`, {
                 department: user.department
               });
-                          setRequests(response.data.requests);
+              console.log(response.data)
+            setRequests(response.data.requests);
         } catch (error) {
             toast.error("Failed to fetch collaboration requests.");
         }
@@ -76,11 +77,12 @@ export default function SentCollaborationRequests() {
                             >
                                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
                                     <div>
-                                        <h2 className="text-xl font-semibold text-white">{req.projectName}</h2>
-                                        <p className="text-sm text-gray-300 mt-1">
-                                            To: <span className="font-medium text-gray-200">{req.departmentRequested}</span>
+                                        <h2 className="text-xl font-semibold text-white">Project Name:{req.projectName}</h2>
+                                        <p className="text-xl text-gray-300 mt-1">
+                                            To: <span className=" text-xl text-gray-200">{req.departmentRequested}</span>
                                         </p>
-                                        <p className="text-sm text-gray-400">Requested on {new Date(req.requestDate).toLocaleDateString()}</p>
+                                        <p className="text-xl text-gray-400">Requested on {new Date(req.requestDate).toLocaleDateString()}</p>
+                                        <p className="text-xl text-gray-400">Their message: {req.message}</p>
                                     </div>
                                     <div className="mt-3 sm:mt-0">{getStatusBadge(req.status)}</div>
                                 </div>

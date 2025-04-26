@@ -5,6 +5,7 @@ import  AuthContext  from "../context/AuthContext";
 
 export default function Navbar() {
     const { user } = useContext(AuthContext); 
+    console.log(user)
     const navigate = useNavigate();
 
     return (
@@ -23,7 +24,7 @@ export default function Navbar() {
                                 <li><Link to="/" className="block py-2 pl-3 pr-4 text-white bg-purple-700 rounded lg:bg-transparent lg:text-purple-700 lg:p-0 dark:text-white relative after:content-[''] after:block after:w-0 after:h-[2px] after:bg-gray-400 after:transition-all after:duration-300 hover:after:w-full">Home</Link></li>
                                 <li><Link to="/about" className="block py-2 pl-3 pr-4 text-white bg-purple-700 rounded lg:bg-transparent lg:text-purple-700 lg:p-0 dark:text-white relative after:content-[''] after:block after:w-0 after:h-[2px] after:bg-gray-400 after:transition-all after:duration-300 hover:after:w-full">About Us</Link></li>
                                 {/* <li><a href="#features" className="block py-2 pl-3 pr-4 text-white bg-purple-700 rounded lg:bg-transparent lg:text-purple-700 lg:p-0 dark:text-white relative after:content-[''] after:block after:w-0 after:h-[2px] after:bg-gray-400 after:transition-all after:duration-300 hover:after:w-full">Features</a></li> */}
-                                {user.role==='Department Head' && <li><Link to="/viewpending" className="block py-2 pl-3 pr-4 text-white bg-purple-700 rounded lg:bg-transparent lg:text-purple-700 lg:p-0 dark:text-white relative after:content-[''] after:block after:w-0 after:h-[2px] after:bg-gray-400 after:transition-all after:duration-300 hover:after:w-full">Review Projects</Link></li>}
+                                {user&&user.role==='Department Head' && <li><Link to="/viewpending" className="block py-2 pl-3 pr-4 text-white bg-purple-700 rounded lg:bg-transparent lg:text-purple-700 lg:p-0 dark:text-white relative after:content-[''] after:block after:w-0 after:h-[2px] after:bg-gray-400 after:transition-all after:duration-300 hover:after:w-full">Review Projects</Link></li>}
                                 <li><a href="/overview" className="block py-2 pl-3 pr-4 text-white bg-purple-700 rounded lg:bg-transparent lg:text-purple-700 lg:p-0 dark:text-white relative after:content-[''] after:block after:w-0 after:h-[2px] after:bg-gray-400 after:transition-all after:duration-300 hover:after:w-full">Dashboard</a></li>
                                 <li><Link to="/contact" className="block py-2 pl-3 pr-4 text-white bg-purple-700 rounded lg:bg-transparent lg:text-purple-700 lg:p-0 dark:text-white relative after:content-[''] after:block after:w-0 after:h-[2px] after:bg-gray-400 after:transition-all after:duration-300 hover:after:w-full">Contact Us</Link></li>
                             </ul>
