@@ -21,6 +21,7 @@ import SentCollaborationRequests from './components/SentRequests'
 import Request from './components/Request'
 import DashboardAnalytics from './components/DashboardAnalytics'
 import ProjectApprovals from './components/ProjectApproval'
+import ProjectTasks from './components/ProjectTasks'
 export const backendUrl = process.env.REACT_APP_BACKEND_URL
 export default function App() {
   console.log(backendUrl)
@@ -47,7 +48,7 @@ export default function App() {
           <Route path="/request" element={ <Request/>} />
           <Route path="/overview" element={<DashboardAnalytics/>} />
           <Route path="/viewpending" element={<ProjectApprovals/>} />
-        </Routes>
+          <Route path="/projects/:projectId/tasks" element={<ProjectTasks />} /> </Routes>
         <Footer/>
       </Router>
     </div>

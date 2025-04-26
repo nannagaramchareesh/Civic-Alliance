@@ -4,7 +4,7 @@ import axios from "axios";
 import { backendUrl } from "../App";
 import AuthContext from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 const Card = ({ children, className }) => (
   <div className={`relative bg-white bg-opacity-10 backdrop-blur-lg border border-gray-300 border-opacity-20 shadow-lg rounded-2xl p-6 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl ${className}`}>
     {children}
@@ -110,9 +110,9 @@ const ProjectsList = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           {[{ value: selectedDepartment, setter: setSelectedDepartment, label: "All Departments", data: projects.map((p) => p.department) },
-            { value: selectedLocation, setter: setSelectedLocation, label: "All Locations", data: projects.map((p) => p.location) },
-            { value: statusFilter, setter: setStatusFilter, label: "All Status", data: ["ongoing", "upcoming"] },
-            { value: sortOrder, setter: setSortOrder, label: "Sort Order", data: ["latest", "oldest"] }]
+          { value: selectedLocation, setter: setSelectedLocation, label: "All Locations", data: projects.map((p) => p.location) },
+          { value: statusFilter, setter: setStatusFilter, label: "All Status", data: ["ongoing", "upcoming"] },
+          { value: sortOrder, setter: setSortOrder, label: "Sort Order", data: ["latest", "oldest"] }]
             .map(({ value, setter, label, data }, index) => (
               <select
                 key={index}
@@ -125,7 +125,7 @@ const ProjectsList = () => {
                   <option key={item} value={item}>{item}</option>
                 ))}
               </select>
-          ))}
+            ))}
         </div>
 
         {/* Projects Grid */}
@@ -148,6 +148,10 @@ const ProjectsList = () => {
                   <div className="mt-6 flex justify-end">
                     <Button onClick={() => navigate(`/projects/${project._id}`)}>View Details</Button>
                   </div>
+                  <Link to={`/projects/${project._id}/tasks`}>
+                    <button className="your-button-class">Manage Tasks</button>
+                  </Link>
+
                 </CardContent>
               </Card>
             );
