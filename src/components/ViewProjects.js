@@ -5,6 +5,7 @@ import { backendUrl } from "../App";
 import AuthContext from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+
 const Card = ({ children, className }) => (
   <div className={`relative bg-white bg-opacity-10 backdrop-blur-lg border border-gray-300 border-opacity-20 shadow-lg rounded-2xl p-6 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl ${className}`}>
     {children}
@@ -132,26 +133,32 @@ const ProjectsList = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
           {filteredProjects.map((project) => {
             const isOngoing = new Date(project.startDate) <= new Date();
+            
             return (
               <Card key={project._id}>
                 <span className={`absolute top-2 right-2 px-3 py-1 text-xs font-bold rounded ${isOngoing ? 'bg-green-500' : 'bg-yellow-500'}`}>
                   {isOngoing ? 'Ongoing' : 'Upcoming'}
                 </span>
                 <CardContent>
-                  <h2 className="text-2xl font-bold">{project.projectName}</h2>
-                  <p className="text-pink-300 font-semibold mt-1">{project.department}</p>
-                  <div className="flex items-center gap-2 text-gray-300 mt-4">
+                  <h2 className="text-2xl font-bold">Name - {project.projectName}</h2>
+                  <p className="text-pink-300 font-semibold mt-1">Department - {project.department}</p>
+                  <div className="flex items-center gap-2 text-gray-300 mt-4">Location - 
                     <MapPin size={22} className="text-blue-400" />
                     <span>{project.location}</span>
                   </div>
-                  <p className="mt-6 text-gray-200">{project.description}</p>
-                  <div className="mt-6 flex justify-end">
-                    <Button onClick={() => navigate(`/projects/${project._id}`)}>View Details</Button>
+                  <p className="mt-6 text-gray-200">Description - { project.description}</p>
+                  <div className="mt-6 flex flex-col gap-3">
+                    <Button onClick={() => navigate(`/projects/${project._id}`)}>
+                      View Details
+                    </Button>
+                    {user.department === project.department && (
+                      <Link to={`/projects/${project._id}/tasks`}>
+                        <button className="w-full px-6 py-2 font-semibold text-white bg-gradient-to-r from-cyan-500 to-blue-600 rounded-lg shadow-md transition-transform transform hover:scale-105 hover:shadow-lg">
+                          Manage Tasks
+                        </button>
+                      </Link>
+                    )}
                   </div>
-                  <Link to={`/projects/${project._id}/tasks`}>
-                    <button className="your-button-class">Manage Tasks</button>
-                  </Link>
-
                 </CardContent>
               </Card>
             );
