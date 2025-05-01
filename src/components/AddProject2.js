@@ -120,41 +120,41 @@ export default function AddProject() {
     };
 
     return (
-        <div className="min-h-screen w-full flex items-center mb-20 justify-center bg-gray-900 text-white">
+        <div className="min-h-screen w-full flex items-center mb-20 justify-center bg-gray-900 text-white px-4 py-8">
             <ToastContainer />
-            <div className="flex ml-36 items-center w-full max-w-7xl">
+            <div className="flex flex-col lg:flex-row items-center w-full max-w-7xl lg:ml-36">
                 <motion.div
                     initial={{ x: -100, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ duration: 1 }}
-                    className="flex-1 max-w-lg"
+                    className="flex-1 max-w-lg text-center lg:text-left mb-8 lg:mb-0"
                 >
-                    <h1 className="text-5xl font-extrabold bg-gradient-to-r from-pink-400 to-blue-400 text-transparent bg-clip-text">
+                    <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold bg-gradient-to-r from-pink-400 to-blue-400 text-transparent bg-clip-text">
                         Create Your Project 🚀
                     </h1>
-                    <p className="mt-4 text-lg text-gray-300">
+                    <p className="mt-4 text-base md:text-lg text-gray-300">
                         Define your project scope, set milestones, and collaborate seamlessly across departments.
                     </p>
                 </motion.div>
 
-                <div className="w-[2px] h-80 bg-gradient-to-b from-blue-500 to-purple-500 mr-16 ml-10"></div>
+                <div className="hidden lg:block w-[2px] h-80 bg-gradient-to-b from-blue-500 to-purple-500 mr-16 ml-10"></div>
 
                 <motion.div
                     initial={{ y: 50, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ duration: 1.2 }}
-                    className="flex-1 max-w-lg bg-white bg-opacity-10 backdrop-blur-lg shadow-2xl rounded-3xl p-10 border mt-20 border-white/20"
+                    className="flex-1 w-full lg:max-w-lg bg-white bg-opacity-10 backdrop-blur-lg shadow-2xl rounded-3xl p-6 md:p-8 lg:p-10 border border-white/20 mt-0 lg:mt-20"
                 >
-                    <h2 className="text-3xl font-bold text-center mb-6 text-gray-200">New Project Details</h2>
+                    <h2 className="text-2xl md:text-3xl font-bold text-center mb-6 text-gray-200">New Project Details</h2>
 
-                    <form onSubmit={handleSubmit} className="space-y-6">
+                    <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
                         <input type="text" name="projectName" placeholder="Project Name" value={projectData.projectName} onChange={handleChange} className="w-full px-4 py-3 bg-transparent text-white border border-gray-500 rounded-lg outline-none focus:ring-2 focus:ring-pink-500 hover:border-pink-400" required />
 
                         <textarea name="description" placeholder="Project Description" value={projectData.description} onChange={handleChange} className="w-full px-4 py-3 bg-transparent text-white border border-gray-500 rounded-lg outline-none focus:ring-2 focus:ring-red-500 hover:border-red-400 resize-none" rows="3" required />
 
                         <input type="text" name="location" placeholder="Project Location" value={projectData.location} onChange={handleChange} className="w-full px-4 py-3 bg-transparent text-white border border-gray-500 rounded-lg outline-none focus:ring-2 focus:ring-yellow-500 hover:border-yellow-400" required />
 
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="relative group">
                                 <FaRegCalendarAlt className="absolute left-4 top-1/2 transform -translate-y-1/2 text-blue-400 text-xl transition-all group-hover:text-purple-500" />
                                 <input type="date" name="startDate" value={projectData.startDate} onChange={handleChange} className="w-full pl-12 pr-6 py-4 bg-transparent text-white border border-gray-500 rounded-lg outline-none focus:ring-2 focus:ring-purple-500 hover:border-purple-400" required />
@@ -185,19 +185,19 @@ export default function AddProject() {
 
                         <div className="bg-gray-800 p-4 rounded-lg">
                             <h3 className="text-lg font-semibold text-white">Collaborating Departments</h3>
-                            <div className="grid grid-cols-3 gap-2 mt-4">
-                                <input type="text" name="name" placeholder="Department Name" value={departmentInput.name} onChange={handleDepartmentChange} className="col-span-1 px-4 py-2 bg-transparent text-white border border-gray-500 rounded-lg outline-none" />
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mt-4">
+                                <input type="text" name="name" placeholder="Department Name" value={departmentInput.name} onChange={handleDepartmentChange} className="md:col-span-1 px-4 py-2 bg-transparent text-white border border-gray-500 rounded-lg outline-none" />
                                 <input type="date" name="startDate" value={departmentInput.startDate} onChange={handleDepartmentChange} className="px-4 py-2 bg-transparent text-white border border-gray-500 rounded-lg outline-none" />
                                 <input type="date" name="endDate" value={departmentInput.endDate} onChange={handleDepartmentChange} className="px-4 py-2 bg-transparent text-white border border-gray-500 rounded-lg outline-none" />
                             </div>
-                            <button type="button" onClick={addDepartment} className="mt-3 flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all">
+                            <button type="button" onClick={addDepartment} className="mt-3 flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all text-sm md:text-base">
                                 <FaPlus /> Add Department
                             </button>
-                            <ul className="mt-4">
+                            <ul className="mt-4 max-h-40 overflow-y-auto">
                                 {projectData.collaboratingDepartments.map((dept, index) => (
-                                    <li key={index} className="flex items-center justify-between p-2 bg-gray-700 rounded-lg mt-2">
-                                        <span>{dept.name} ({dept.startDate} - {dept.endDate})</span>
-                                        <button onClick={() => removeDepartment(index)} className="text-red-400 hover:text-red-500">
+                                    <li key={index} className="flex items-center justify-between p-2 bg-gray-700 rounded-lg mt-2 text-sm md:text-base">
+                                        <span className="truncate mr-2">{dept.name} ({dept.startDate} - {dept.endDate})</span>
+                                        <button onClick={() => removeDepartment(index)} className="text-red-400 hover:text-red-500 flex-shrink-0">
                                             <FaTrash />
                                         </button>
                                     </li>
@@ -208,7 +208,7 @@ export default function AddProject() {
                         <motion.button
                             whileHover={!loading ? { scale: 1.05 } : {}}
                             whileTap={!loading ? { scale: 0.95 } : {}}
-                            className={`w-full flex items-center justify-center gap-2 py-3 px-5 text-white text-lg font-semibold rounded-full transition-all 
+                            className={`w-full flex items-center justify-center gap-2 py-3 px-5 text-white text-base md:text-lg font-semibold rounded-full transition-all 
                                 ${loading ? 'bg-blue-300 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'}`}
                             type="submit"
                             disabled={loading}
@@ -226,10 +226,10 @@ export default function AddProject() {
             </div>
 
             {priorityConflictModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/30">
-                    <div className="bg-white/10 border border-white/20 backdrop-blur-xl shadow-2xl rounded-2xl p-6 w-[550px] text-white">
-                        <h3 className="text-2xl font-bold mb-3 text-pink-400">{title} 🚫</h3>
-                        <p className="text-xl text-gray-200 mb-6">
+                <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/30 px-4">
+                    <div className="bg-white/10 border border-white/20 backdrop-blur-xl shadow-2xl rounded-2xl p-6 w-full max-w-[550px] text-white">
+                        <h3 className="text-xl md:text-2xl font-bold mb-3 text-pink-400">{title} 🚫</h3>
+                        <p className="text-base md:text-xl text-gray-200 mb-6">
                             {msg}
                         </p>
                         <div className="flex justify-end">

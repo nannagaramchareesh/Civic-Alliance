@@ -118,18 +118,18 @@ export default function ProjectTasks() {
     tasks.forEach(task => groupedTasks[task.status].push(task));
 
     return (
-        <div className="min-h-screen bg-gray-900 text-white px-6 py-10">
+        <div className="min-h-screen bg-gray-900 text-white px-3 sm:px-6 py-6 sm:py-10">
             {/* Header */}
-            <div className="flex justify-between items-center mb-8">
-                <h2 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 text-transparent bg-clip-text">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0 mb-6 sm:mb-8">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 text-transparent bg-clip-text">
                     📋 Project Tasks
                 </h2>
 
-                <div className="flex items-center gap-6">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 w-full sm:w-auto">
                     {/* New Task Button */}
                     <button
                         onClick={() => setShowModal(true)}
-                        className="flex items-center gap-2 px-5 py-3 bg-blue-600 hover:bg-blue-700 rounded-xl shadow-lg"
+                        className="flex items-center justify-center w-full sm:w-auto gap-2 px-4 sm:px-5 py-2 sm:py-3 bg-blue-600 hover:bg-blue-700 rounded-xl shadow-lg text-sm sm:text-base"
                     >
                         <FaPlus /> New Task
                     </button>
@@ -145,9 +145,9 @@ export default function ProjectTasks() {
                                     e.target.checked = false; // Reset after action
                                 }
                             }}
-                            className="w-5 h-5 accent-green-500"
+                            className="w-4 h-4 sm:w-5 sm:h-5 accent-green-500"
                         />
-                        <label htmlFor="completeProject" className="text-gray-300 cursor-pointer">
+                        <label htmlFor="completeProject" className="text-gray-300 text-sm sm:text-base cursor-pointer">
                             Mark Project as Completed
                         </label>
                     </div>
@@ -157,14 +157,14 @@ export default function ProjectTasks() {
             {/* Loading */}
             {loading ? (
                 <div className="flex justify-center items-center h-40">
-                    <FaSpinner className="animate-spin text-4xl text-blue-400" />
+                    <FaSpinner className="animate-spin text-3xl sm:text-4xl text-blue-400" />
                 </div>
             ) : (
-                <div className="grid md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                     {["Pending", "In Progress", "Completed"].map(status => (
-                        <div key={status}>
-                            <h3 className="text-2xl font-semibold mb-4">{status}</h3>
-                            <div className="space-y-4">
+                        <div key={status} className="mb-6 sm:mb-0">
+                            <h3 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4">{status}</h3>
+                            <div className="space-y-3 sm:space-y-4">
                                 {groupedTasks[status].length > 0 ? (
                                     groupedTasks[status].map(task => {
                                         const assignedOfficer = officers.find(officer => officer._id === task.assignedTo);
@@ -174,23 +174,25 @@ export default function ProjectTasks() {
                                                 initial={{ opacity: 0, y: 20 }}
                                                 animate={{ opacity: 1, y: 0 }}
                                                 transition={{ duration: 0.3 }}
-                                                className="bg-white/10 backdrop-blur-md p-5 rounded-2xl shadow-lg border border-white/20"
+                                                className="bg-white/10 backdrop-blur-md p-3 sm:p-5 rounded-xl sm:rounded-2xl shadow-lg border border-white/20"
                                             >
-                                                <h4 className="text-xl font-bold text-white">Name: {task.title}</h4>
-                                                <h4 className="text-xl font-bold text-white">
-                                                    Assigned to: {assignedOfficer ? `${assignedOfficer.name} (${assignedOfficer._id})` : "Unknown"}
+                                                <h4 className="text-base sm:text-lg md:text-xl font-bold text-white">Name: {task.title}</h4>
+                                                <h4 className="text-base sm:text-lg md:text-xl font-bold text-white mt-1">
+                                                    Assigned to: {assignedOfficer ? assignedOfficer.name : "Unknown"}
                                                 </h4>
-                                                <p className="text-gray-300 text-xl mt-2">Description: {task.description}</p>
-                                                <p className="text-gray-400 text-xl mt-1">
-                                                    From: {new Date(task.startDate).toLocaleDateString()} ➔ To: {new Date(task.endDate).toLocaleDateString()}
-                                                </p>
+                                                <p className="text-gray-300 text-sm sm:text-base md:text-lg mt-2">Description: {task.description}</p>
+                                                <div className="text-gray-400 text-xs sm:text-sm md:text-base mt-1 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+                                                    <span>From: {new Date(task.startDate).toLocaleDateString()}</span>
+                                                    <span className="hidden sm:inline">➔</span>
+                                                    <span>To: {new Date(task.endDate).toLocaleDateString()}</span>
+                                                </div>
 
                                                 {(user._id === task.assignedTo || user.role === "Department Head") && (
-                                                    <div className="mt-4 flex items-center gap-2">
+                                                    <div className="mt-3 sm:mt-4 flex flex-col xs:flex-row items-start xs:items-center gap-2">
                                                         <select
                                                             value={statusUpdates[task._id] || task.status}
                                                             onChange={(e) => handleStatusChange(task._id, e.target.value)}
-                                                            className="bg-gray-700 text-white p-2 rounded-lg focus:outline-none"
+                                                            className="bg-gray-700 text-white p-2 rounded-lg focus:outline-none text-sm sm:text-base w-full xs:w-auto"
                                                         >
                                                             <option>Pending</option>
                                                             <option>In Progress</option>
@@ -198,7 +200,7 @@ export default function ProjectTasks() {
                                                         </select>
                                                         <button
                                                             onClick={() => handleSaveStatus(task._id)}
-                                                            className="bg-green-500 hover:bg-green-600 px-3 py-2 rounded-lg text-sm font-semibold"
+                                                            className="bg-green-500 hover:bg-green-600 px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold w-full xs:w-auto"
                                                         >
                                                             Save
                                                         </button>
@@ -218,64 +220,73 @@ export default function ProjectTasks() {
 
             {/* Add Task Modal */}
             {showModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50">
+                <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50 p-4">
                     <motion.div
                         initial={{ scale: 0.8, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
-                        className="bg-gray-800 p-8 rounded-2xl w-full max-w-md space-y-4"
+                        className="bg-gray-800 p-5 sm:p-8 rounded-xl sm:rounded-2xl w-full max-w-md space-y-3 sm:space-y-4"
                     >
-                        <h3 className="text-2xl font-bold text-center">Add New Task</h3>
+                        <h3 className="text-xl sm:text-2xl font-bold text-center">Add New Task</h3>
                         <input
                             type="text"
                             placeholder="Title"
                             value={newTask.title}
                             onChange={e => setNewTask(prev => ({ ...prev, title: e.target.value }))}
-                            className="w-full p-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none"
+                            className="w-full p-2 sm:p-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none text-sm sm:text-base"
                         />
                         <textarea
                             placeholder="Description"
                             value={newTask.description}
                             onChange={e => setNewTask(prev => ({ ...prev, description: e.target.value }))}
-                            className="w-full p-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none"
+                            className="w-full p-2 sm:p-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none text-sm sm:text-base"
                             rows="3"
                         ></textarea>
-                        <div className="flex gap-4">
-                            <input
-                                type="date"
-                                value={newTask.startDate}
-                                onChange={e => setNewTask(prev => ({ ...prev, startDate: e.target.value }))}
-                                className="w-full p-3 rounded-lg bg-gray-700 text-white focus:outline-none"
-                            />
-                            <input
-                                type="date"
-                                value={newTask.endDate}
-                                onChange={e => setNewTask(prev => ({ ...prev, endDate: e.target.value }))}
-                                className="w-full p-3 rounded-lg bg-gray-700 text-white focus:outline-none"
-                            />
+                        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
+                            <div className="w-full space-y-1">
+                                <label className="text-xs text-gray-400">Start Date</label>
+                                <input
+                                    type="date"
+                                    value={newTask.startDate}
+                                    onChange={e => setNewTask(prev => ({ ...prev, startDate: e.target.value }))}
+                                    className="w-full p-2 sm:p-3 rounded-lg bg-gray-700 text-white focus:outline-none text-sm"
+                                />
+                            </div>
+                            <div className="w-full space-y-1">
+                                <label className="text-xs text-gray-400">End Date</label>
+                                <input
+                                    type="date"
+                                    value={newTask.endDate}
+                                    onChange={e => setNewTask(prev => ({ ...prev, endDate: e.target.value }))}
+                                    className="w-full p-2 sm:p-3 rounded-lg bg-gray-700 text-white focus:outline-none text-sm"
+                                />
+                            </div>
                         </div>
-                        <select
-                            value={newTask.assignedTo || ""}
-                            onChange={e => setNewTask(prev => ({ ...prev, assignedTo: e.target.value }))}
-                            className="w-full p-3 rounded-lg bg-gray-700 text-white focus:outline-none"
-                        >
-                            <option value="">Select Officer</option>
-                            {officers.map(officer => (
-                                <option key={officer._id} value={officer._id}>
-                                    {officer.name}
-                                </option>
-                            ))}
-                        </select>
+                        <div className="space-y-1">
+                            <label className="text-xs text-gray-400">Assign To</label>
+                            <select
+                                value={newTask.assignedTo || ""}
+                                onChange={e => setNewTask(prev => ({ ...prev, assignedTo: e.target.value }))}
+                                className="w-full p-2 sm:p-3 rounded-lg bg-gray-700 text-white focus:outline-none text-sm sm:text-base"
+                            >
+                                <option value="">Select Officer</option>
+                                {officers.map(officer => (
+                                    <option key={officer._id} value={officer._id}>
+                                        {officer.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
 
-                        <div className="flex gap-4 mt-6">
+                        <div className="flex gap-3 sm:gap-4 mt-4 sm:mt-6">
                             <button
                                 onClick={handleAddTask}
-                                className="flex-1 bg-green-500 hover:bg-green-600 py-3 rounded-xl font-semibold"
+                                className="flex-1 bg-green-500 hover:bg-green-600 py-2 sm:py-3 rounded-xl font-semibold text-sm sm:text-base"
                             >
                                 Create
                             </button>
                             <button
                                 onClick={() => setShowModal(false)}
-                                className="flex-1 bg-red-500 hover:bg-red-600 py-3 rounded-xl font-semibold"
+                                className="flex-1 bg-red-500 hover:bg-red-600 py-2 sm:py-3 rounded-xl font-semibold text-sm sm:text-base"
                             >
                                 Cancel
                             </button>
